@@ -30,7 +30,7 @@ var getRandomParameters = function (parametersArray, numberOfParameters) {
     var objectOfRandomParameters = {};
 
     for (var i = 0; i < numberOfParameters; i++) {
-      objectOfRandomParameters[getRandomNoRepeatingItem(parametersArray)] = null;
+      objectOfRandomParameters[parametersArray[Math.floor(Math.random() * parametersArray.length)]] = null;
     }
 
     return objectOfRandomParameters;
