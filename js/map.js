@@ -120,7 +120,6 @@ var buttonsMap = document.querySelector('.map__pins');
 buttonsMap.appendChild(fragment);
 
 article = writeInAd(adsArray[0]);
-console.log(article);
 
 var insertBlock = document.querySelector('.map');
 var insertBeforeBlock = document.querySelector('.map__filters-container');
