@@ -27,11 +27,13 @@ var getRandomNoRepeatingItem = function (itemsArray) {
 
 var getRandomParameters = function (parametersArray, numberOfParameters) {
   if (numberOfParameters) {
-    var arrayOfRandomParameters = [];
+    var objectOfRandomParameters = {};
+
     for (var i = 0; i < numberOfParameters; i++) {
-      arrayOfRandomParameters[i] = getRandomNoRepeatingItem(parametersArray);
+      objectOfRandomParameters[getRandomNoRepeatingItem(parametersArray)] = null;
     }
-    return arrayOfRandomParameters;
+
+    return objectOfRandomParameters;
   } else {
     return parametersArray[Math.floor(Math.random() * parametersArray.length)];
   }
@@ -91,10 +93,13 @@ var writeInAd = function (ad) {
   }
   instanceOfArticle.querySelectorAll('p')[2].textContent = ad.offer.rooms + ' для ' + ad.offer.guests + ' гостей';
   instanceOfArticle.querySelectorAll('p')[3].textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
-  for (var i = 0; i < ad.offer.features.length; i++) {
-    newElement = document.createElement('li');
-    newElement.className = 'feature feature--' + ad.offer.features[i];
-    instanceOfArticle.querySelector('.popup__features').appendChild(newElement);
+  for (var key in ad.offer.features) {
+    if (key) {
+      newElement = document.createElement('li');
+      newElement.className = 'feature feature--' +
+        key;
+      instanceOfArticle.querySelector('.popup__features').appendChild(newElement);
+    }
   }
   instanceOfArticle.querySelectorAll('p')[4].textContent = ad.offer.description;
   instanceOfArticle.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
@@ -115,6 +120,7 @@ var buttonsMap = document.querySelector('.map__pins');
 buttonsMap.appendChild(fragment);
 
 article = writeInAd(adsArray[0]);
+console.log(article);
 
 var insertBlock = document.querySelector('.map');
 var insertBeforeBlock = document.querySelector('.map__filters-container');
