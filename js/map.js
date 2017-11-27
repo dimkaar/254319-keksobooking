@@ -9,118 +9,88 @@ var buttonTemplate = document.querySelector('template').content.querySelector('.
 var article = document.querySelector('template').content.querySelector('article.map__card');
 var adsArray = [];
 
-var generateNumbersArray = function (number) {
-  var numbersArray = [];
-  for (var i = 0; i < number; i++) {
-    numbersArray[i] = 1 + i;
-  }
-  return numbersArray;
-};
-
 var getRandomArbitrary = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var getRandomNoRepeatingItem = function (itemsArray) {
-  return itemsArray.splice(Math.floor(Math.random() * itemsArray.length), 1);
-};
-
-var getRandomParameters = function (parametersArray, numberOfParameters) {
-  if (numberOfParameters) {
-    var objectOfRandomParameters = {};
-
-    for (var i = 0; i < numberOfParameters; i++) {
-      objectOfRandomParameters[parametersArray[Math.floor(Math.random() * parametersArray.length)]] = null;
+var generateAd = function (iterator) {
+  var locationX = getRandomArbitrary(300, 900);
+  var locationY = getRandomArbitrary(100, 500);
+  var features = FEATURES.slice();
+  features.length = getRandomArbitrary(0, FEATURES.length);
+  adsArray.push({
+    'author': {
+      'avatar': 'img/avatars/user0' + (iterator + 1) + '.png'
+    },
+    'offer': {
+      'title': TITLES[iterator],
+      'address': '' + locationX + ', ' + locationY,
+      'price': getRandomArbitrary(1000, 1000000),
+      'type': TYPES[getRandomArbitrary(0, TYPES.length)],
+      'rooms': getRandomArbitrary(1, 5),
+      'guests': getRandomArbitrary(1, 30),
+      'checkin': TIMES[getRandomArbitrary(0, TYPES.length)],
+      'checkout': TIMES[getRandomArbitrary(0, TYPES.length)],
+      'features': features,
+      'description': '',
+      'photos': []
+    },
+    'location': {
+      'x': locationX,
+      'y': locationY
     }
-
-    return objectOfRandomParameters;
-  } else {
-    return parametersArray[Math.floor(Math.random() * parametersArray.length)];
-  }
+  });
 };
 
-var generateAds = function (numbersArray, numberOfAds) {
-  for (var i = 0; i < numberOfAds; i++) {
-    var locationX = getRandomArbitrary(300, 900);
-    var locationY = getRandomArbitrary(118 + parseInt(buttonTemplate.querySelector('img').getAttribute('height'), 10), 500);
-    adsArray[i] = {
-      'author': {
-        avatar: 'img/avatars/user0' + getRandomNoRepeatingItem(numbersArray) + '.png'
-      },
-      'offer': {
-        title: getRandomNoRepeatingItem(TITLES),
-        address: locationX + ', ' + locationY,
-        price: getRandomArbitrary(1000, 1000000),
-        type: getRandomParameters(TYPES),
-        rooms: getRandomArbitrary(1, 5),
-        guests: getRandomArbitrary(1, 30),
-        checkin: getRandomParameters(TIMES),
-        checkout: getRandomParameters(TIMES),
-        features: getRandomParameters(FEATURES, getRandomArbitrary(1, FEATURES.length)),
-        description: '',
-        photos: []
-      },
-      'location': {
-        x: locationX,
-        y: locationY
-      }
-    };
-  }
+var renderButton = function (elementData) {
+  var instanceButton = buttonTemplate.cloneNode(true);
+  instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + elementData.location.y + 'px;');
+  instanceButton.querySelector('img').src = elementData.author.avatar;
+  return instanceButton;
 };
 
-var renderButton = function (ad) {
-  var instanceOfButton = buttonTemplate.cloneNode(true);
-  instanceOfButton.setAttribute('style', 'left: ' + (ad.location.x - instanceOfButton.querySelector('img').getAttribute('width') / 2) + 'px; top: ' + (ad.location.y - instanceOfButton.querySelector('img').getAttribute('height') - 18) + 'px;');
-  instanceOfButton.querySelector('img').setAttribute('src', ad.author.avatar);
-  return instanceOfButton;
-};
-
-var writeInAd = function (ad) {
-  var instanceOfArticle = article.cloneNode(true);
-  var newElement = '';
-  instanceOfArticle.querySelector('h3').textContent = ad.offer.title;
-  instanceOfArticle.querySelector('p>small').textContent = ad.offer.address;
-  instanceOfArticle.querySelector('.popup__price').innerHTML = ad.offer.price + '&#x20bd;/ночь';
-  switch (ad.offer.type) {
-    case 'flat': instanceOfArticle.querySelector('h4').textContent = 'Квартира';
+var renderAd = function (adData) {
+  var instanceOfAd = article.cloneNode(true);
+  var featuresElement = instanceOfAd.querySelector('.popup__features');
+  instanceOfAd.querySelector('h3').textContent = adData.offer.title;
+  instanceOfAd.querySelector('small').textContent = adData.offer.address;
+  instanceOfAd.querySelectorAll('p')[1].innerHTML = adData.offer.price + '&#x20bd;/ночь';
+  switch (adData.offer.type) {
+    case 'flat': instanceOfAd.querySelector('h4').textContent = 'Квартира';
       break;
-    case 'bungalo': instanceOfArticle.querySelector('h4').textContent = 'Бунгало';
+    case 'house': instanceOfAd.querySelector('h4').textContent = 'Дом';
       break;
-    case 'house': instanceOfArticle.querySelector('h4').textContent = 'Дом';
+    case 'bungalo': instanceOfAd.querySelector('h4').textContent = 'Бунгало';
       break;
-    default: instanceOfArticle.querySelector('h4').textContent = 'Не указано';
+    default: instanceOfAd.querySelector('h4').textContent = 'Не указано';
       break;
   }
-  instanceOfArticle.querySelectorAll('p')[2].textContent = ad.offer.rooms + ' для ' + ad.offer.guests + ' гостей';
-  instanceOfArticle.querySelectorAll('p')[3].textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
-  for (var key in ad.offer.features) {
-    if (key) {
-      newElement = document.createElement('li');
-      newElement.className = 'feature feature--' +
-        key;
-      instanceOfArticle.querySelector('.popup__features').appendChild(newElement);
-    }
+  instanceOfAd.querySelectorAll('p')[2].innerHTML = adData.offer.rooms + ' для ' + adData.offer.guests + ' гостей';
+  instanceOfAd.querySelectorAll('p')[3].textContent = 'Заезд после: ' + adData.offer.checkin + ', выезд до ' + adData.offer.checkout;
+
+  for (var i = 0; i < adData.offer.features.length; i++) {
+    var newLi = document.createElement('li');
+    newLi.classList = 'feature feature--' + adData.offer.features[i];
+    featuresElement.appendChild(newLi);
   }
-  instanceOfArticle.querySelectorAll('p')[4].textContent = ad.offer.description;
-  instanceOfArticle.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
-  return instanceOfArticle;
+  instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
+  return instanceOfAd;
 };
-
-var numbersArray = generateNumbersArray(8);
-generateAds(numbersArray, 8);
-
-var mapBlock = document.querySelector('.map');
-mapBlock.classList.remove('map--faded');
 
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < adsArray.length; i++) {
+for (var i = 0; i < 8; i++) {
+  generateAd(i);
   fragment.appendChild(renderButton(adsArray[i]));
 }
-var buttonsMap = document.querySelector('.map__pins');
-buttonsMap.appendChild(fragment);
 
-article = writeInAd(adsArray[0]);
+var pinsMap = document.querySelector('.map__pins');
+pinsMap.appendChild(fragment);
 
-var insertBlock = document.querySelector('.map');
-var insertBeforeBlock = document.querySelector('.map__filters-container');
-insertBlock.insertBefore(article, insertBeforeBlock);
+fragment = document.createDocumentFragment();
+fragment.appendChild(renderAd(adsArray[0]));
+
+var mapBlock = document.querySelector('.map');
+var insertBeforeBlock = document.querySelector('.map__filter-container');
+mapBlock.insertBefore(fragment, insertBeforeBlock);
+
+mapBlock.classList.remove('map--faded');
