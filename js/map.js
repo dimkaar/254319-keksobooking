@@ -4,6 +4,7 @@ var TITLES = ['Большая уютная квартира', 'Маленька�
 var TYPES = ['flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var WHITE_SPADE_HEIGHT = 18;
 
 var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var article = document.querySelector('template').content.querySelector('article.map__card');
@@ -44,7 +45,7 @@ var generateAd = function (iterator) {
 
 var renderButton = function (elementData) {
   var instanceButton = buttonTemplate.cloneNode(true);
-  instanceButton.setAttribute('style', 'left: ' + (elementData.location.x - instanceButton.getAttribute('width') / 2) + 'px; top: ' + (elementData.location.y - instanceButton.getAttribute('height') - 18) + 'px;');
+  instanceButton.setAttribute('style', 'left: ' + (elementData.location.x - instanceButton.querySelector('img').width / 2) + 'px; top: ' + (elementData.location.y - instanceButton.querySelector('img').height / 2 - WHITE_SPADE_HEIGHT) + 'px;');
   instanceButton.querySelector('img').src = elementData.author.avatar;
   return instanceButton;
 };
