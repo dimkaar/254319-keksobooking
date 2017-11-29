@@ -44,35 +44,45 @@ var generateAd = function (iterator) {
 
 var renderButton = function (elementData) {
   var instanceButton = buttonTemplate.cloneNode(true);
-  instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + elementData.location.y + 'px;');
+  instanceButton.setAttribute('style', 'left: ' + (elementData.location.x - instanceButton.getAttribute('width') / 2) + 'px; top: ' + (elementData.location.y - instanceButton.getAttribute('height') - 18) + 'px;');
   instanceButton.querySelector('img').src = elementData.author.avatar;
   return instanceButton;
+};
+
+var removeChilds = function (element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 };
 
 var renderAd = function (adData) {
   var instanceOfAd = article.cloneNode(true);
   var featuresElement = instanceOfAd.querySelector('.popup__features');
+  var fragment = document.createDocumentFragment();
+  var houseTypeHeader = instanceOfAd.querySelector('h4');
+
   instanceOfAd.querySelector('h3').textContent = adData.offer.title;
   instanceOfAd.querySelector('small').textContent = adData.offer.address;
   instanceOfAd.querySelectorAll('p')[1].innerHTML = adData.offer.price + '&#x20bd;/ночь';
   switch (adData.offer.type) {
-    case 'flat': instanceOfAd.querySelector('h4').textContent = 'Квартира';
+    case 'flat': houseTypeHeader.textContent = 'Квартира';
       break;
-    case 'house': instanceOfAd.querySelector('h4').textContent = 'Дом';
+    case 'house': houseTypeHeader.textContent = 'Дом';
       break;
-    case 'bungalo': instanceOfAd.querySelector('h4').textContent = 'Бунгало';
+    case 'bungalo': houseTypeHeader.textContent = 'Бунгало';
       break;
-    default: instanceOfAd.querySelector('h4').textContent = 'Не указано';
+    default: houseTypeHeader.textContent = 'Не указано';
       break;
   }
   instanceOfAd.querySelectorAll('p')[2].innerHTML = adData.offer.rooms + ' для ' + adData.offer.guests + ' гостей';
   instanceOfAd.querySelectorAll('p')[3].textContent = 'Заезд после: ' + adData.offer.checkin + ', выезд до ' + adData.offer.checkout;
-
+  removeChilds(featuresElement);
   for (var i = 0; i < adData.offer.features.length; i++) {
     var newLi = document.createElement('li');
     newLi.classList = 'feature feature--' + adData.offer.features[i];
-    featuresElement.appendChild(newLi);
+    fragment.appendChild(newLi);
   }
+  featuresElement.appendChild(fragment);
   instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
   return instanceOfAd;
 };
