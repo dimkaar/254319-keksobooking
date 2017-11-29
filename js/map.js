@@ -5,6 +5,7 @@ var TYPES = ['flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var WHITE_SPADE_HEIGHT = 18;
+var BUBBLE_HEIGHT = 44;
 
 var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var article = document.querySelector('template').content.querySelector('article.map__card');
@@ -45,7 +46,7 @@ var generateAd = function (iterator) {
 
 var renderButton = function (elementData) {
   var instanceButton = buttonTemplate.cloneNode(true);
-  instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - WHITE_SPADE_HEIGHT) + 'px;');
+  instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
   instanceButton.querySelector('img').src = elementData.author.avatar;
   return instanceButton;
 };
