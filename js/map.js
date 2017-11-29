@@ -45,7 +45,7 @@ var generateAd = function (iterator) {
 
 var renderButton = function (elementData) {
   var instanceButton = buttonTemplate.cloneNode(true);
-  instanceButton.setAttribute('style', 'left: ' + (elementData.location.x - instanceButton.querySelector('img').width / 2) + 'px; top: ' + (elementData.location.y - instanceButton.querySelector('img').height / 2 - WHITE_SPADE_HEIGHT) + 'px;');
+  instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - WHITE_SPADE_HEIGHT) + 'px;');
   instanceButton.querySelector('img').src = elementData.author.avatar;
   return instanceButton;
 };
