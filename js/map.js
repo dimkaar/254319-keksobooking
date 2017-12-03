@@ -69,7 +69,7 @@ var renderAd = function (adData) {
   var featuresElement = instanceOfAd.querySelector('.popup__features');
   var fragment = document.createDocumentFragment();
   var houseTypeHeader = instanceOfAd.querySelector('h4');
-
+  var popupClose = instanceOfAd.querySelector('.popup__close');
   instanceOfAd.querySelector('h3').textContent = adData.offer.title;
   instanceOfAd.querySelector('small').textContent = adData.offer.address;
   instanceOfAd.querySelectorAll('p')[1].innerHTML = adData.offer.price + '&#x20bd;/ночь';
@@ -93,7 +93,35 @@ var renderAd = function (adData) {
   }
   featuresElement.appendChild(fragment);
   instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
+  popupClose.tabIndex = 0;
+  popupClose.addEventListener('click', popupCloseClickHandler);
+  popupClose.addEventListener('keydown', popupCloseKeydownHandler);
   return instanceOfAd;
+};
+
+var init = function () {
+  var noticeForm = document.querySelector('.notice__form');
+  var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
+  mapBlock.classList.add('map--faded');
+  noticeForm.classList.add('notice__form--disabled');
+  for (var i = 0; i < noticeFormFieldsets.length; i++) {
+    noticeFormFieldsets[i].disabled = true;
+  }
+};
+
+var activateMap = function () {
+  var pinsMap = mapBlock.querySelector('.map__pins');
+  mapBlock.classList.remove('map--faded');
+  pinsMap.appendChild(fragment);
+};
+
+var activateNoticeForm = function () {
+  var noticeForm = document.querySelector('.notice__form');
+  var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
+  noticeForm.classList.remove('notice__form--disabled');
+  for (var i = 0; i < noticeFormFieldsets.length; i++) {
+    noticeFormFieldsets[i].disabled = false;
+  }
 };
 
 var removeActivePin = function () {
@@ -103,41 +131,40 @@ var removeActivePin = function () {
   }
 };
 
+var makePinActive = function (evt) {
+  var currentPin = evt.currentTarget;
+  currentPin.classList.add('map__pin--active');
+};
+
+var showPopup = function (evt) {
+  var insertBeforeBlock = document.querySelector('.map__filter-container');
+  var pinId = parseInt(evt.currentTarget.dataset.id, 10);
+  fragment = renderAd(adsArray[pinId]);
+  mapBlock.insertBefore(fragment, insertBeforeBlock);
+};
+
 var removePopup = function () {
   var popup = document.querySelector('.popup');
   popup.remove();
 };
 
-var init = function () {
-  mapBlock.classList.add('map--faded');
-  noticeForm.classList.add('notice__form--disabled');
-  for (var i = 0; i < noticeFormFieldsets.length; i++) {
-    noticeFormFieldsets[i].disabled = true;
-  }
+var mainPinMouseupHandler = function () {
+  activateMap();
+  activateNoticeForm();
 };
 
-var mainPinMouseoverHandler = function () {
-  mapBlock.classList.remove('map--faded');
-  pinsMap.appendChild(fragment);
-  noticeForm.classList.remove('notice__form--disabled');
-  for (var i = 0; i < noticeFormFieldsets.length; i++) {
-    noticeFormFieldsets[i].disabled = false;
+var mainPinKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateMap();
+    activateNoticeForm();
   }
 };
 
 var secondaryPinClickHandler = function (evt) {
-  var currentPin = evt.currentTarget;
-  var pinId = parseInt(currentPin.dataset.id, 10);
-  var popupClose = '';
   removeActivePin();
-  currentPin.classList.add('map__pin--active');
-  fragment = renderAd(adsArray[pinId]);
-  mapBlock.insertBefore(fragment, insertBeforeBlock);
-  popupClose = mapBlock.querySelector('.popup__close');
-  popupClose.tabIndex = 0;
-  popupClose.addEventListener('click', popupCloseClickHandler);
-  popupClose.addEventListener('keydown', popupCloseKeydownHandler);
-  document.addEventListener('keydown', documentKeydownHandler);
+  makePinActive(evt);
+  showPopup(evt);
+  document.addEventListener('keydown', escKeydownHandler);
 };
 
 var popupCloseClickHandler = function () {
@@ -152,7 +179,7 @@ var popupCloseKeydownHandler = function (evt) {
   }
 };
 
-var documentKeydownHandler = function (evt) {
+var escKeydownHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removePopup();
     removeActivePin();
@@ -166,10 +193,7 @@ for (var i = 0; i < 8; i++) {
 }
 
 var mapBlock = document.querySelector('.map');
-var pinsMap = mapBlock.querySelector('.map__pins');
 var mainPin = mapBlock.querySelector('.map__pin--main');
-var noticeForm = document.querySelector('.notice__form');
-var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
-var insertBeforeBlock = document.querySelector('.map__filter-container');
 window.onload = init;
-mainPin.addEventListener('mouseover', mainPinMouseoverHandler);
+mainPin.addEventListener('mouseup', mainPinMouseupHandler);
+mainPin.addEventListener('keydown', mainPinKeydownHandler);
