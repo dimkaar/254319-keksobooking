@@ -100,7 +100,6 @@ var renderAd = function (adData) {
 };
 
 var init = function () {
-  var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
   mapBlock.classList.add('map--faded');
   noticeForm.classList.add('notice__form--disabled');
@@ -116,12 +115,12 @@ var activateMap = function () {
 };
 
 var activateNoticeForm = function () {
-  var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
   noticeForm.classList.remove('notice__form--disabled');
   for (var i = 0; i < noticeFormFieldsets.length; i++) {
     noticeFormFieldsets[i].disabled = false;
   }
+  updateDefaultInputs();
 };
 
 var removeActivePin = function () {
@@ -146,6 +145,60 @@ var showPopup = function (evt) {
 var removePopup = function () {
   var popup = document.querySelector('.popup');
   popup.remove();
+};
+
+var updateDefaultInputs = function () {
+  var adTitleInput = noticeForm.querySelector('#title');
+  var adAddressInput = noticeForm.querySelector('#address');
+  var adPriceInput = noticeForm.querySelector('#price');
+  var adTimeinSelect = noticeForm.querySelector('#timein');
+  var adTimeoutSelect = noticeForm.querySelector('#timeout');
+  var adTypeSelect = noticeForm.querySelector('#type');
+  var adRoomNumber = noticeForm.querySelector('#room_number');
+  var adFormSubmit = noticeForm.querySelector('.form__submit');
+  noticeForm.action = 'https://js.dump.academy/keksobooking';
+  adTitleInput.required = true;
+  adTitleInput.minLength = 30;
+  adTitleInput.maxLength = 100;
+  adAddressInput.readOnly = true;
+  adAddressInput.required = true;
+  adPriceInput.required = true;
+  adPriceInput.min = 0;
+  adPriceInput.value = 1000;
+  adPriceInput.max = 1000000;
+  adTimeoutSelect.value = adTimeinSelect.value;
+  substituteInputValue(adAddressInput);
+  adTimeinSelect.addEventListener('change', timeinChangeHandler);
+  adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
+  adTypeSelect.addEventListener('change', typeChangeHandler);
+  adRoomNumber.addEventListener('change', roomNumberChangeHandler);
+  adFormSubmit.addEventListener('click', submitClickHandler);
+  adFormSubmit.addEventListener('keydown', submitKeydownHandler);
+};
+
+var substituteInputValue = function (input, data) {
+  input.value = data ? data : 'mock address';
+};
+
+var checkFormValidity = function () {
+  var adTitleInput = noticeForm.querySelector('#title');
+  var adAddressInput = noticeForm.querySelector('#address');
+  var adPriceInput = noticeForm.querySelector('#price');
+  if (adTitleInput.validity.tooShort || adTitleInput.value.length < 30 || !adTitleInput.value) {
+    adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
+  } else if (adTitleInput.validity.tooLong || adTitleInput.value.length > 100) {
+    adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
+  }
+  if (adAddressInput === '' || !adAddressInput.value) {
+    adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
+  }
+  if (adPriceInput.value < adPriceInput.min) {
+    adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
+    adPriceInput.border = '1px solid #ff0000';
+  } else if (adPriceInput.value > adPriceInput.max) {
+    adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
+    adPriceInput.border = '1px solid #ff0000';
+  }
 };
 
 var mainPinMouseupHandler = function () {
@@ -179,6 +232,62 @@ var popupCloseKeydownHandler = function (evt) {
   }
 };
 
+var timeinChangeHandler = function () {
+  var adTimeinSelect = noticeForm.querySelector('#timein');
+  var adTimeoutSelect = noticeForm.querySelector('#timeout');
+  adTimeoutSelect.value = adTimeinSelect.value;
+};
+
+var timeoutChangeHandler = function () {
+  var adTimeinSelect = noticeForm.querySelector('#timein');
+  var adTimeoutSelect = noticeForm.querySelector('#timeout');
+  adTimeinSelect.value = adTimeoutSelect.value;
+};
+
+var typeChangeHandler = function () {
+  var adTypeSelect = noticeForm.querySelector('#type');
+  var adPriceInput = noticeForm.querySelector('#price');
+  var typeValue = adTypeSelect.value;
+  switch (typeValue) {
+    case 'bungalo': adPriceInput.min = 0;
+      break;
+    case 'flat': adPriceInput.min = 1000;
+      break;
+    case 'house': adPriceInput.min = 5000;
+      break;
+    case 'palace': adPriceInput.min = 10000;
+      break;
+    default: adPriceInput.min = 0;
+      break;
+  }
+};
+
+var roomNumberChangeHandler = function () {
+  var adRoomNumber = noticeForm.querySelector('#room_number');
+  var adCapacity = noticeForm.querySelector('#capacity');
+  var roomValue = adRoomNumber.value;
+  switch (roomValue) {
+    case '1': adCapacity.value = 1;
+      break;
+    case '2': adCapacity.value = 2;
+      break;
+    case '3': adCapacity.value = 3;
+      break;
+    case '100': adCapacity.value = 0;
+      break;
+  }
+};
+
+var submitClickHandler = function () {
+  checkFormValidity();
+};
+
+var submitKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    checkFormValidity();
+  }
+};
+
 var escKeydownHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removePopup();
@@ -194,6 +303,7 @@ for (var i = 0; i < 8; i++) {
 
 var mapBlock = document.querySelector('.map');
 var mainPin = mapBlock.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form');
 window.onload = init;
 mainPin.addEventListener('mouseup', mainPinMouseupHandler);
 mainPin.addEventListener('keydown', mainPinKeydownHandler);
