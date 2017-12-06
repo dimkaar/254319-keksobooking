@@ -161,6 +161,7 @@ var updateDefaultInputs = function () {
   adTimeoutSelect.value = adTimeinSelect.value;
   substituteInputValue(adAddressInput);
   setPriceAndTypeDependency();
+  setRoomsAndCapacityDependency();
   adTimeinSelect.addEventListener('change', timeinChangeHandler);
   adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
   adTypeSelect.addEventListener('change', typeChangeHandler);
@@ -207,15 +208,46 @@ var setPriceAndTypeDependency = function () {
 
 var setRoomsAndCapacityDependency = function () {
   var roomValue = adRoomNumber.value;
+  disableOptions();
   switch (roomValue) {
     case '1': adCapacity.value = 1;
+      unblockOptions(1);
       break;
     case '2': adCapacity.value = 2;
+      unblockOptions(2);
       break;
     case '3': adCapacity.value = 3;
+      unblockOptions(3);
       break;
     case '100': adCapacity.value = 0;
+      unblockOptions(0);
       break;
+  }
+};
+
+var disableOptions = function () {
+  var options = adCapacity.querySelectorAll('option');
+  for (var i = 0; i < options.length; i++) {
+    options[i].disabled = true;
+  }
+};
+
+var unblockOptions = function (number) {
+  var options = adCapacity.querySelectorAll('option');
+  for (var i = 0; i < options.length; i++) {
+    if (number === 0) {
+      if (options[i].value === '0') {
+        options[i].disabled = false;
+      }
+    } else if (options[i].value <= number) {
+      if (options[i].value === '0') {
+        continue;
+      } else {
+        options[i].disabled = false;
+      }
+    } else if (options[i].value === '0') {
+      continue;
+    }
   }
 };
 
