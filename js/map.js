@@ -241,12 +241,12 @@ var unblockOptions = function (number) {
       }
     } else if (options[i].value <= number) {
       if (options[i].value === '0') {
-        continue;
+        break;
       } else {
         options[i].disabled = false;
       }
     } else if (options[i].value === '0') {
-      continue;
+      break;
     }
   }
 };
