@@ -1,45 +1,10 @@
 'use strict';
 
-var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var TYPES = ['flat', 'house', 'bungalo'];
-var TIMES = ['12:00', '13:00', '14:00'];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var WHITE_SPADE_HEIGHT = 18;
 var BUBBLE_HEIGHT = 44;
 
 var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var article = document.querySelector('template').content.querySelector('article.map__card');
-var adsArray = [];
-
-var generateAd = function (iterator) {
-  var locationX = window.util.getRandomArbitrary(300, 900);
-  var locationY = window.util.getRandomArbitrary(100, 500);
-  var features = FEATURES.slice();
-  features.length = window.util.getRandomArbitrary(0, FEATURES.length);
-  adsArray.push({
-    'author': {
-      'avatar': 'img/avatars/user0' + (iterator + 1) + '.png'
-    },
-    'offer': {
-      'title': TITLES[iterator],
-      'address': '' + locationX + ', ' + locationY,
-      'price': window.util.getRandomArbitrary(1000, 1000000),
-      'type': TYPES[window.util.getRandomArbitrary(0, TYPES.length)],
-      'rooms': window.util.getRandomArbitrary(1, 5),
-      'guests': window.util.getRandomArbitrary(1, 30),
-      'checkin': TIMES[window.util.getRandomArbitrary(0, TYPES.length)],
-      'checkout': TIMES[window.util.getRandomArbitrary(0, TYPES.length)],
-      'features': features,
-      'description': '',
-      'photos': []
-    },
-    'location': {
-      'x': locationX,
-      'y': locationY
-    },
-    'id': iterator
-  });
-};
 
 var renderButton = function (elementData) {
   var instanceButton = buttonTemplate.cloneNode(true);
@@ -132,7 +97,7 @@ var makePinActive = function (evt) {
 var showPopup = function (evt) {
   var insertBeforeBlock = document.querySelector('.map__filter-container');
   var pinId = parseInt(evt.currentTarget.dataset.id, 10);
-  fragment = renderAd(adsArray[pinId]);
+  fragment = renderAd(window.util.adsArray[pinId]);
   mapBlock.insertBefore(fragment, insertBeforeBlock);
 };
 
@@ -300,8 +265,7 @@ var escKeydownHandler = function (evt) {
 
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < 8; i++) {
-  generateAd(i);
-  fragment.appendChild(renderButton(adsArray[i]));
+  fragment.appendChild(renderButton(window.util.adsArray[i]));
 }
 
 var mapBlock = document.querySelector('.map');
