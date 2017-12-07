@@ -97,13 +97,17 @@ var makePinActive = function (evt) {
 var showPopup = function (evt) {
   var insertBeforeBlock = document.querySelector('.map__filter-container');
   var pinId = parseInt(evt.currentTarget.dataset.id, 10);
-  fragment = renderAd(window.util.adsArray[pinId]);
-  mapBlock.insertBefore(fragment, insertBeforeBlock);
+  if (!mapBlock.querySelector('.popup')) {
+    fragment = renderAd(window.util.adsArray[pinId]);
+    mapBlock.insertBefore(fragment, insertBeforeBlock);
+  }
 };
 
 var removePopup = function () {
   var popup = document.querySelector('.popup');
-  popup.remove();
+  if (popup) {
+    popup.remove();
+  }
 };
 
 var updateDefaultInputs = function () {
@@ -220,6 +224,7 @@ var mainPinKeydownHandler = function (evt) {
 };
 
 var secondaryPinClickHandler = function (evt) {
+  removePopup();
   removeActivePin();
   makePinActive(evt);
   showPopup(evt);
