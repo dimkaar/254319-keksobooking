@@ -20,6 +20,7 @@
     getRandomArbitrary: function (min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
-    adsArray: []
+    adsArray: [],
+    noticeForm: document.querySelector('.notice__form')
   };
 })();
