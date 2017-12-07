@@ -109,16 +109,16 @@
     var options = adCapacity.querySelectorAll('option');
     for (var i = 0; i < options.length; i++) {
       if (number === 0) {
-        if (options[i].value === '0') {
+        if (parseInt(options[i].value, 10) === 0) {
           options[i].disabled = false;
         }
       } else if (options[i].value <= number) {
-        if (options[i].value === '0') {
+        if (parseInt(options[i].value, 10) === 0) {
           break;
         } else {
           options[i].disabled = false;
         }
-      } else if (options[i].value === '0') {
+      } else if (parseInt(options[i].value, 10) === 0) {
         break;
       }
     }
