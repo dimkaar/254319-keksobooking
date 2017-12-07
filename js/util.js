@@ -3,6 +3,10 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var mapBlock = document.querySelector('.map');
+  var noticeForm = document.querySelector('.notice__form');
+  var mainPin = mapBlock.querySelector('.map__pin--main');
+  var fragment = document.createDocumentFragment();
 
   window.util = {
     isEscEvent: function (evt, action, nextAction) {
@@ -20,7 +24,15 @@
     getRandomArbitrary: function (min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
+    removeChilds: function (element) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+    },
     adsArray: [],
-    noticeForm: document.querySelector('.notice__form')
+    noticeForm: noticeForm,
+    mapBlock: mapBlock,
+    mainPin: mainPin,
+    fragment: fragment
   };
 })();
