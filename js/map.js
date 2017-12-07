@@ -6,22 +6,16 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var WHITE_SPADE_HEIGHT = 18;
 var BUBBLE_HEIGHT = 44;
-var ENTER_KEYCODE = 13;
-var ESC_KEYCODE = 27;
 
 var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var article = document.querySelector('template').content.querySelector('article.map__card');
 var adsArray = [];
 
-var getRandomArbitrary = function (min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
 var generateAd = function (iterator) {
-  var locationX = getRandomArbitrary(300, 900);
-  var locationY = getRandomArbitrary(100, 500);
+  var locationX = window.util.getRandomArbitrary(300, 900);
+  var locationY = window.util.getRandomArbitrary(100, 500);
   var features = FEATURES.slice();
-  features.length = getRandomArbitrary(0, FEATURES.length);
+  features.length = window.util.getRandomArbitrary(0, FEATURES.length);
   adsArray.push({
     'author': {
       'avatar': 'img/avatars/user0' + (iterator + 1) + '.png'
@@ -29,12 +23,12 @@ var generateAd = function (iterator) {
     'offer': {
       'title': TITLES[iterator],
       'address': '' + locationX + ', ' + locationY,
-      'price': getRandomArbitrary(1000, 1000000),
-      'type': TYPES[getRandomArbitrary(0, TYPES.length)],
-      'rooms': getRandomArbitrary(1, 5),
-      'guests': getRandomArbitrary(1, 30),
-      'checkin': TIMES[getRandomArbitrary(0, TYPES.length)],
-      'checkout': TIMES[getRandomArbitrary(0, TYPES.length)],
+      'price': window.util.getRandomArbitrary(1000, 1000000),
+      'type': TYPES[window.util.getRandomArbitrary(0, TYPES.length)],
+      'rooms': window.util.getRandomArbitrary(1, 5),
+      'guests': window.util.getRandomArbitrary(1, 30),
+      'checkin': TIMES[window.util.getRandomArbitrary(0, TYPES.length)],
+      'checkout': TIMES[window.util.getRandomArbitrary(0, TYPES.length)],
       'features': features,
       'description': '',
       'photos': []
@@ -257,10 +251,7 @@ var mainPinMouseupHandler = function () {
 };
 
 var mainPinKeydownHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    activateMap();
-    activateNoticeForm();
-  }
+  window.util.isEnterEvent(evt, activateMap, activateNoticeForm);
 };
 
 var secondaryPinClickHandler = function (evt) {
@@ -276,10 +267,7 @@ var popupCloseClickHandler = function () {
 };
 
 var popupCloseKeydownHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    removePopup();
-    removeActivePin();
-  }
+  window.util.isEnterEvent(evt, removePopup, removeActivePin);
 };
 
 var timeinChangeHandler = function () {
@@ -303,16 +291,11 @@ var submitClickHandler = function () {
 };
 
 var submitKeydownHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    checkFormValidity();
-  }
+  window.util.isEnterEvent(evt, checkFormValidity);
 };
 
 var escKeydownHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    removePopup();
-    removeActivePin();
-  }
+  window.util.isEscEvent(evt, removePopup, removeActivePin);
 };
 
 var fragment = document.createDocumentFragment();
