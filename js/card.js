@@ -25,7 +25,7 @@ window.cardModule = (function () {
     }
   };
 
-  cardModule.popupCloseKeydownHandler = function (evt) {
+  cardModule.popupCloseKeyDownHandler = function (evt) {
     window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
   };
 
