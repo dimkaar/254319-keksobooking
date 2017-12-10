@@ -122,7 +122,7 @@
     checkFormValidity();
   };
 
-  var submitKeydownHandler = function (evt) {
+  var submitKeyDownHandler = function (evt) {
     window.util.isEnterEvent(evt, checkFormValidity);
   };
 
@@ -138,7 +138,7 @@
     adPriceInput.value = 1000;
     adPriceInput.max = 1000000;
     adTimeoutSelect.value = adTimeinSelect.value;
-    substituteInputValue(adAddressInput);
+    substituteInputValue(adAddressInput, window.mapModule.location);
     setPriceAndTypeDependency();
     setRoomsAndCapacityDependency();
     adTimeinSelect.addEventListener('change', timeinChangeHandler);
@@ -146,7 +146,7 @@
     adTypeSelect.addEventListener('change', typeChangeHandler);
     adRoomNumber.addEventListener('change', roomNumberChangeHandler);
     adFormSubmit.addEventListener('click', submitClickHandler);
-    adFormSubmit.addEventListener('keydown', submitKeydownHandler);
+    adFormSubmit.addEventListener('keydown', submitKeyDownHandler);
   };
 
   window.activateForm = activateNoticeForm;
