@@ -2,8 +2,32 @@
 
 window.cardModule = (function () {
   var cardModule = {};
-
   var article = document.querySelector('template').content.querySelector('article.map__card');
+
+  cardModule.removePopup = function () {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+  };
+
+  cardModule.popupCloseClickHandler = function () {
+    cardModule.removePopup();
+    window.pinModule.removeActivePin();
+  };
+
+  cardModule.showPopup = function (evt) {
+    var insertBeforeBlock = document.querySelector('.map__filter-container');
+    var pinId = parseInt(evt.currentTarget.dataset.id, 10);
+    if (!window.util.mapBlock.querySelector('.popup')) {
+      window.util.fragment = renderAd(window.util.adsArray[pinId]);
+      window.util.mapBlock.insertBefore(window.util.fragment, insertBeforeBlock);
+    }
+  };
+
+  cardModule.popupCloseKeydownHandler = function (evt) {
+    window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
+  };
 
   var renderAd = function (adData) {
     var instanceOfAd = article.cloneNode(true);
@@ -38,31 +62,6 @@ window.cardModule = (function () {
     popupClose.addEventListener('click', cardModule.popupCloseClickHandler);
     popupClose.addEventListener('keydown', cardModule.popupCloseKeydownHandler);
     return instanceOfAd;
-  };
-
-  cardModule.removePopup = function () {
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
-  };
-
-  cardModule.popupCloseClickHandler = function () {
-    cardModule.removePopup();
-    window.pinModule.removeActivePin();
-  };
-
-  cardModule.showPopup = function (evt) {
-    var insertBeforeBlock = document.querySelector('.map__filter-container');
-    var pinId = parseInt(evt.currentTarget.dataset.id, 10);
-    if (!window.util.mapBlock.querySelector('.popup')) {
-      window.util.fragment = renderAd(window.util.adsArray[pinId]);
-      window.util.mapBlock.insertBefore(window.util.fragment, insertBeforeBlock);
-    }
-  };
-
-  cardModule.popupCloseKeydownHandler = function (evt) {
-    window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
   };
 
   return cardModule;

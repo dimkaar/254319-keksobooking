@@ -17,7 +17,6 @@ window.mapModule = (function () {
     pinsMap.appendChild(window.util.fragment);
   };
 
-
   mapModule.escKeydownHandler = function (evt) {
     window.util.isEscEvent(evt, window.cardModule.removePopup, window.pinModule.removeActivePin);
   };

@@ -20,29 +20,6 @@
     updateDefaultInputs();
   };
 
-  var updateDefaultInputs = function () {
-    window.util.noticeForm.action = 'https://js.dump.academy/keksobooking';
-    adTitleInput.required = true;
-    adTitleInput.minLength = 30;
-    adTitleInput.maxLength = 100;
-    adAddressInput.readOnly = true;
-    adAddressInput.required = true;
-    adPriceInput.required = true;
-    adPriceInput.min = 0;
-    adPriceInput.value = 1000;
-    adPriceInput.max = 1000000;
-    adTimeoutSelect.value = adTimeinSelect.value;
-    substituteInputValue(adAddressInput);
-    setPriceAndTypeDependency();
-    setRoomsAndCapacityDependency();
-    adTimeinSelect.addEventListener('change', timeinChangeHandler);
-    adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
-    adTypeSelect.addEventListener('change', typeChangeHandler);
-    adRoomNumber.addEventListener('change', roomNumberChangeHandler);
-    adFormSubmit.addEventListener('click', submitClickHandler);
-    adFormSubmit.addEventListener('keydown', submitKeydownHandler);
-  };
-
   var substituteInputValue = function (input, data) {
     input.value = data ? data : 'mock address';
   };
@@ -147,6 +124,29 @@
 
   var submitKeydownHandler = function (evt) {
     window.util.isEnterEvent(evt, checkFormValidity);
+  };
+
+  var updateDefaultInputs = function () {
+    window.util.noticeForm.action = 'https://js.dump.academy/keksobooking';
+    adTitleInput.required = true;
+    adTitleInput.minLength = 30;
+    adTitleInput.maxLength = 100;
+    adAddressInput.readOnly = true;
+    adAddressInput.required = true;
+    adPriceInput.required = true;
+    adPriceInput.min = 0;
+    adPriceInput.value = 1000;
+    adPriceInput.max = 1000000;
+    adTimeoutSelect.value = adTimeinSelect.value;
+    substituteInputValue(adAddressInput);
+    setPriceAndTypeDependency();
+    setRoomsAndCapacityDependency();
+    adTimeinSelect.addEventListener('change', timeinChangeHandler);
+    adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
+    adTypeSelect.addEventListener('change', typeChangeHandler);
+    adRoomNumber.addEventListener('change', roomNumberChangeHandler);
+    adFormSubmit.addEventListener('click', submitClickHandler);
+    adFormSubmit.addEventListener('keydown', submitKeydownHandler);
   };
 
   window.activateForm = activateNoticeForm;
