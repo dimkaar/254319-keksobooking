@@ -12,7 +12,7 @@ window.pinModule = (function () {
     pinModule.removeActivePin();
     makePinActive(evt);
     window.cardModule.showPopup(evt);
-    document.addEventListener('keydown', window.mapModule.escKeydownHandler);
+    document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
   var makePinActive = function (evt) {
@@ -20,12 +20,7 @@ window.pinModule = (function () {
     currentPin.classList.add('map__pin--active');
   };
 
-  pinModule.mainPinMouseupHandler = function () {
-    window.mapModule.activateMap();
-    window.activateForm();
-  };
-
-  pinModule.mainPinKeydownHandler = function (evt) {
+  pinModule.mainPinKeyDownHandler = function (evt) {
     window.util.isEnterEvent(evt, window.mapModule.activateMap, window.activateForm);
   };
 
@@ -49,8 +44,7 @@ window.pinModule = (function () {
     window.util.fragment.appendChild(renderButton(window.util.adsArray[i]));
   }
 
-  window.util.mainPin.addEventListener('mouseup', pinModule.mainPinMouseupHandler);
-  window.util.mainPin.addEventListener('keydown', pinModule.mainPinKeydownHandler);
+  window.util.mainPin.addEventListener('keydown', pinModule.mainPinKeyDownHandler);
 
   return pinModule;
 })();
