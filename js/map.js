@@ -7,8 +7,8 @@ window.mapModule = (function () {
   var MAIN_PIN_SPADE = 16;
   var pinsMap = window.util.mapBlock.querySelector('.map__pins');
   var pinsMapStyle = getComputedStyle(pinsMap);
-  var minY = 100 + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE;
-  var maxY = 500 + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE;
+  var minY = 100;
+  var maxY = 500;
   var minX = pinsMap.offsetTop;
   var maxX = pinsMapStyle.width;
   maxX = parseInt(maxX.replace('px', ''), 10);
@@ -55,7 +55,7 @@ window.mapModule = (function () {
         mapModule.locationX = window.util.mainPin.offsetLeft - shift.x;
         window.util.mainPin.style.left = mapModule.locationX + 'px';
       }
-      mapModule.location = 'x: ' + mapModule.locationX + ', y: ' + mapModule.locationY;
+      mapModule.location = 'x: ' + mapModule.locationX + ', y: ' + (mapModule.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
     };
 
     var mainPinMouseUpHandler = function () {
