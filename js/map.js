@@ -3,12 +3,12 @@
 window.mapModule = (function () {
   var mapModule = {};
   mapModule.location = '';
-  var MAIN_PIN_HEIGHT = 65;
+  var MAIN_PIN_HEIGHT = 64;
   var MAIN_PIN_SPADE = 16;
   var pinsMap = window.util.mapBlock.querySelector('.map__pins');
   var pinsMapStyle = getComputedStyle(pinsMap);
-  var minY = 100;
-  var maxY = 500;
+  var minY = 100 + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE;
+  var maxY = 500 + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE;
   var minX = pinsMap.offsetTop;
   var maxX = pinsMapStyle.width;
   maxX = parseInt(maxX.replace('px', ''), 10);
@@ -33,7 +33,7 @@ window.mapModule = (function () {
   mapModule.mainPinMouseDownHandler = function (evt) {
     var startDragCoords = {
       x: evt.clientX,
-      y: (evt.clientY - MAIN_PIN_HEIGHT / 2 - MAIN_PIN_SPADE)
+      y: evt.clientY
     };
 
     var mainPinMouseMoveHandler = function (moveEvt) {
@@ -47,12 +47,12 @@ window.mapModule = (function () {
         y: moveEvt.clientY
       };
 
-      if ((window.util.mainPin.offsetTop - shift.y) >= minY && (window.util.mainPin.offsetTop - shift.y) <= maxY) {
-        mapModule.locationY = (window.util.mainPin.offsetTop - shift.y);
+      if (window.util.mainPin.offsetTop - shift.y >= minY && window.util.mainPin.offsetTop - shift.y <= maxY) {
+        mapModule.locationY = window.util.mainPin.offsetTop - shift.y;
         window.util.mainPin.style.top = mapModule.locationY + 'px';
       }
       if (window.util.mainPin.offsetLeft - shift.x >= minX && window.util.mainPin.offsetLeft - shift.x <= maxX) {
-        mapModule.locationX = (window.util.mainPin.offsetLeft - shift.x);
+        mapModule.locationX = window.util.mainPin.offsetLeft - shift.x;
         window.util.mainPin.style.left = mapModule.locationX + 'px';
       }
       mapModule.location = 'x: ' + mapModule.locationX + ', y: ' + mapModule.locationY;
