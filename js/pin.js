@@ -4,7 +4,8 @@ window.pinModule = (function () {
   var pinModule = {};
   var WHITE_SPADE_HEIGHT = 18;
   var BUBBLE_HEIGHT = 44;
-
+  var fragment = document.createDocumentFragment();
+  pinModule.fragment = fragment;
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
   var secondaryPinClickHandler = function (evt) {
@@ -41,7 +42,7 @@ window.pinModule = (function () {
   };
 
   for (var i = 0; i < 8; i++) {
-    window.util.fragment.appendChild(renderButton(window.util.adsArray[i]));
+    pinModule.fragment.appendChild(renderButton(window.util.adsArray[i]));
   }
 
   window.util.mainPin.addEventListener('keydown', pinModule.mainPinKeyDownHandler);
