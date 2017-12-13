@@ -12,7 +12,7 @@ window.pinModule = (function () {
     window.cardModule.removePopup();
     pinModule.removeActivePin();
     makePinActive(evt);
-    window.cardModule.showPopup(evt);
+    window.showCard(evt);
     document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
