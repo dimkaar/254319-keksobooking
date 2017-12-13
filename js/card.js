@@ -21,7 +21,7 @@ window.cardModule = (function () {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
     var pinId = parseInt(evt.currentTarget.dataset.id, 10);
     if (!window.util.mapBlock.querySelector('.popup')) {
-      fragment = renderAd(window.util.adsArray[pinId]);
+      fragment = cardModule.renderAd(window.util.adsArray[pinId]);
       window.util.mapBlock.insertBefore(fragment, insertBeforeBlock);
     }
   };
@@ -30,7 +30,7 @@ window.cardModule = (function () {
     window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
   };
 
-  var renderAd = function (adData) {
+  cardModule.renderAd = function (adData) {
     var instanceOfAd = article.cloneNode(true);
     var fragment = document.createDocumentFragment();
     var featuresElement = instanceOfAd.querySelector('.popup__features');
