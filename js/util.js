@@ -6,7 +6,6 @@
   var mapBlock = document.querySelector('.map');
   var noticeForm = document.querySelector('.notice__form');
   var mainPin = mapBlock.querySelector('.map__pin--main');
-  var fragment = document.createDocumentFragment();
 
   window.util = {
     isEscEvent: function (evt, action, nextAction) {
@@ -32,7 +31,6 @@
     adsArray: [],
     noticeForm: noticeForm,
     mapBlock: mapBlock,
-    mainPin: mainPin,
-    fragment: fragment
+    mainPin: mainPin
   };
 })();

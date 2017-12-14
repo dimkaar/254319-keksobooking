@@ -16,12 +16,12 @@ window.cardModule = (function () {
     window.pinModule.removeActivePin();
   };
 
-  cardModule.showPopup = function (evt) {
+  window.showCard = function (evt) {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
     var pinId = parseInt(evt.currentTarget.dataset.id, 10);
     if (!window.util.mapBlock.querySelector('.popup')) {
-      window.util.fragment = renderAd(window.util.adsArray[pinId]);
-      window.util.mapBlock.insertBefore(window.util.fragment, insertBeforeBlock);
+      var card = cardModule.renderAd(window.util.adsArray[pinId]);
+      window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
   };
 
@@ -29,10 +29,10 @@ window.cardModule = (function () {
     window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
   };
 
-  var renderAd = function (adData) {
+  cardModule.renderAd = function (adData) {
     var instanceOfAd = article.cloneNode(true);
-    var featuresElement = instanceOfAd.querySelector('.popup__features');
     var fragment = document.createDocumentFragment();
+    var featuresElement = instanceOfAd.querySelector('.popup__features');
     var houseTypeHeader = instanceOfAd.querySelector('h4');
     var popupClose = instanceOfAd.querySelector('.popup__close');
     instanceOfAd.querySelector('h3').textContent = adData.offer.title;

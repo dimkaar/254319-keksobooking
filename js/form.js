@@ -10,6 +10,14 @@
   var adRoomNumber = window.util.noticeForm.querySelector('#room_number');
   var adCapacity = window.util.noticeForm.querySelector('#capacity');
   var adFormSubmit = window.util.noticeForm.querySelector('.form__submit');
+  var fieldsValuesArrays = {
+    TIMES_IN: ['12:00', '13:00', '14:00'],
+    TIMES_OUT: ['12:00', '13:00', '14:00'],
+    BUILDING_TYPES: ['flat', 'bungalo', 'house', 'palace'],
+    MINIMAL_PRICES: ['1000', '0', '5000', '10000'],
+    ROOMS_NUMBER: ['1', '2', '3', '100'],
+    CAPACITY_VALUES: ['1', '2', '3', '0']
+  };
 
   var activateNoticeForm = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
@@ -42,80 +50,51 @@
     }
   };
 
-  var setPriceAndTypeDependency = function () {
-    var typeValue = adTypeSelect.value;
-    switch (typeValue) {
-      case 'bungalo': adPriceInput.min = 0;
-        break;
-      case 'flat': adPriceInput.min = 1000;
-        break;
-      case 'house': adPriceInput.min = 5000;
-        break;
-      case 'palace': adPriceInput.min = 10000;
-        break;
-    }
+  var syncValues = function (element, value) {
+    element.value = value;
   };
 
-  var setRoomsAndCapacityDependency = function () {
-    var roomValue = adRoomNumber.value;
-    disableOptions();
-    switch (roomValue) {
-      case '1': adCapacity.value = 1;
-        unblockOptions(1);
-        break;
-      case '2': adCapacity.value = 2;
-        unblockOptions(2);
-        break;
-      case '3': adCapacity.value = 3;
-        unblockOptions(3);
-        break;
-      case '100': adCapacity.value = 0;
-        unblockOptions(0);
-        break;
-    }
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
   };
 
   var disableOptions = function () {
     var options = adCapacity.querySelectorAll('option');
+    var currentValue = adCapacity.value;
     for (var i = 0; i < options.length; i++) {
       options[i].disabled = true;
     }
-  };
-
-  var unblockOptions = function (number) {
-    var options = adCapacity.querySelectorAll('option');
-    for (var i = 0; i < options.length; i++) {
-      if (number === 0) {
-        if (parseInt(options[i].value, 10) === 0) {
-          options[i].disabled = false;
-        }
-      } else if (options[i].value <= number) {
-        if (parseInt(options[i].value, 10) === 0) {
-          break;
-        } else {
-          options[i].disabled = false;
-        }
-      } else if (parseInt(options[i].value, 10) === 0) {
+    switch (currentValue) {
+      case '0': options[3].disabled = false;
         break;
-      }
+      case '1': options[2].disabled = false;
+        break;
+      case '2': options[1].disabled = false;
+        options[2].disabled = false;
+        break;
+      case '3': options[0].disabled = false;
+        options[1].disabled = false;
+        options[2].disabled = false;
+        break;
     }
   };
 
   var timeinChangeHandler = function () {
-    adTimeoutSelect.value = adTimeinSelect.value;
+    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValuesArrays.TIMES_IN, fieldsValuesArrays.TIMES_OUT, syncValues);
   };
 
   var timeoutChangeHandler = function () {
-    adTimeinSelect.value = adTimeoutSelect.value;
+    window.synchronizeFields(adTimeoutSelect, adTimeinSelect, fieldsValuesArrays.TIMES_OUT, fieldsValuesArrays.TIMES_IN, syncValues);
   };
 
 
   var typeChangeHandler = function () {
-    setPriceAndTypeDependency();
+    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
   };
 
   var roomNumberChangeHandler = function () {
-    setRoomsAndCapacityDependency();
+    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
+    disableOptions();
   };
 
   var submitClickHandler = function () {
@@ -137,10 +116,11 @@
     adPriceInput.min = 0;
     adPriceInput.value = 1000;
     adPriceInput.max = 1000000;
-    adTimeoutSelect.value = adTimeinSelect.value;
+    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValuesArrays.TIMES_IN, fieldsValuesArrays.TIMES_OUT, syncValues);
+    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
+    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
+    disableOptions();
     substituteInputValue(adAddressInput, window.mapModule.location);
-    setPriceAndTypeDependency();
-    setRoomsAndCapacityDependency();
     adTimeinSelect.addEventListener('change', timeinChangeHandler);
     adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
     adTypeSelect.addEventListener('change', typeChangeHandler);

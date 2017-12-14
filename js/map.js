@@ -23,7 +23,7 @@ window.mapModule = (function () {
 
   mapModule.activateMap = function () {
     window.util.mapBlock.classList.remove('map--faded');
-    pinsMap.appendChild(window.util.fragment);
+    pinsMap.appendChild(window.pinModule.fragment);
   };
 
   mapModule.escKeyDownHandler = function (evt) {
