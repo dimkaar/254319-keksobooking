@@ -60,28 +60,22 @@
 
   var disableOptions = function () {
     var options = adCapacity.querySelectorAll('option');
+    var currentValue = adCapacity.value;
     for (var i = 0; i < options.length; i++) {
       options[i].disabled = true;
     }
-  };
-
-  var unblockOptions = function () {
-    var currentValue = adCapacity.value;
-    var options = adCapacity.querySelectorAll('option');
-    for (var i = 0; i < options.length; i++) {
-      if (parseInt(currentValue, 10) === 0) {
-        if (parseInt(options[i].value, 10) === 0) {
-          options[i].disabled = false;
-        }
-      } else if (options[i].value <= currentValue) {
-        if (parseInt(options[i].value, 10) === 0) {
-          break;
-        } else {
-          options[i].disabled = false;
-        }
-      } else if (parseInt(options[i].value, 10) === 0) {
+    switch (currentValue) {
+      case '0': options[3].disabled = false;
         break;
-      }
+      case '1': options[2].disabled = false;
+        break;
+      case '2': options[1].disabled = false;
+        options[2].disabled = false;
+        break;
+      case '3': options[0].disabled = false;
+        options[1].disabled = false;
+        options[2].disabled = false;
+        break;
     }
   };
 
@@ -101,7 +95,6 @@
   var roomNumberChangeHandler = function () {
     window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
     disableOptions();
-    unblockOptions();
   };
 
   var submitClickHandler = function () {
@@ -127,7 +120,6 @@
     window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
     disableOptions();
-    unblockOptions();
     substituteInputValue(adAddressInput, window.mapModule.location);
     adTimeinSelect.addEventListener('change', timeinChangeHandler);
     adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
