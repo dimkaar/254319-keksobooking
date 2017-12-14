@@ -17,12 +17,11 @@ window.cardModule = (function () {
   };
 
   cardModule.showPopup = function (evt) {
-    var fragment = document.createDocumentFragment();
     var insertBeforeBlock = document.querySelector('.map__filter-container');
     var pinId = parseInt(evt.currentTarget.dataset.id, 10);
     if (!window.util.mapBlock.querySelector('.popup')) {
-      fragment = cardModule.renderAd(window.util.adsArray[pinId]);
-      window.util.mapBlock.insertBefore(fragment, insertBeforeBlock);
+      var card = cardModule.renderAd(window.util.adsArray[pinId]);
+      window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
   };
 
