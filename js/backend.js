@@ -3,11 +3,13 @@
 (function () {
 
   var errorHandler = function (message) {
-    console.error(message);
+    var div = document.createElement('div');
+    div.classList.add('errorBlock');
+    div.innerHTML = message;
+    window.util.mapBlock.appendChild(div);
   };
 
   var successHandler = function (data) {
-    debugger;
     window.util.adsArray = data;
   };
 
