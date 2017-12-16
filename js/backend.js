@@ -1,17 +1,7 @@
 'use strict';
 
 (function () {
-
-  var errorHandler = function (message) {
-    var div = document.createElement('div');
-    div.classList.add('errorBlock');
-    div.innerHTML = message;
-    window.util.mapBlock.appendChild(div);
-  };
-
-  var successHandler = function (data) {
-    window.util.adsArray = data;
-  };
+  var URL = 'https://1510.dump.academy/keksobooking';
 
   var xhrSetup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -46,17 +36,15 @@
 
   var load = function (onLoad, onError) {
     var xhr = xhrSetup(onLoad, onError);
-    xhr.open('GET', 'https://1510.dump.academy/keksobooking/data');
+    xhr.open('GET', URL + '/data');
     xhr.send();
   };
 
   var save = function (data, onLoad, onError) {
     var xhr = xhrSetup(onLoad, onError);
-    xhr.open('POST', 'https://1510.dump.academy/keksobooking');
+    xhr.open('POST', URL);
     xhr.send();
   };
-
-  load(successHandler, errorHandler);
 
   window.backend = {
     load: load,
