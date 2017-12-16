@@ -32,21 +32,33 @@
     input.value = data ? data : 'mock address';
   };
 
-  var checkFormValidity = function () {
+  var checkFormValidity = function (evt) {
+    var error = false;
+    evt.preventDefault();
     if (adTitleInput.validity.tooShort || adTitleInput.value.length < 30 || !adTitleInput.value) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
+      error = true;
     } else if (adTitleInput.validity.tooLong || adTitleInput.value.length > 100) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
+      error = true;
     }
     if (adAddressInput === '' || !adAddressInput.value) {
       adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
+      error = true;
     }
     if (adPriceInput.value < adPriceInput.min) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
-      adPriceInput.border = '1px solid #ff0000';
+      error = true;
     } else if (adPriceInput.value > adPriceInput.max) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
-      adPriceInput.border = '1px solid #ff0000';
+      error = true;
+    }
+    return error;
+  };
+
+  var submitForm = function (error) {
+    if (!error) {
+      window.backend.save(new FormData(window.util.noticeForm), successHandler, window.util.errorHandler);
     }
   };
 
@@ -97,16 +109,20 @@
     disableOptions();
   };
 
-  var submitClickHandler = function () {
-    checkFormValidity();
+  var submitClickHandler = function (evt) {
+    var error = checkFormValidity(evt);
+    submitForm(error);
   };
 
   var submitKeyDownHandler = function (evt) {
     window.util.isEnterEvent(evt, checkFormValidity);
   };
 
+  var successHandler = function () {
+    document.window.util.noticeForm.reset();
+  };
+
   var updateDefaultInputs = function () {
-    window.util.noticeForm.action = 'https://js.dump.academy/keksobooking';
     adTitleInput.required = true;
     adTitleInput.minLength = 30;
     adTitleInput.maxLength = 100;
