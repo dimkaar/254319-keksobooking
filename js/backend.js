@@ -43,7 +43,7 @@
   var save = function (data, onLoad, onError) {
     var xhr = xhrSetup(onLoad, onError);
     xhr.open('POST', URL);
-    xhr.send();
+    xhr.send(data);
   };
 
   window.backend = {
