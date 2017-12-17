@@ -21,9 +21,11 @@ window.mapModule = (function () {
     }
   };
 
-  mapModule.activateMap = function () {
+  mapModule.activateMap = function (evt) {
     window.util.mapBlock.classList.remove('map--faded');
     pinsMap.appendChild(window.pinModule.fragment);
+
+    mapModule.location = 'x: ' + evt.clientX + ', y: ' + (evt.clientY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   };
 
   mapModule.escKeyDownHandler = function (evt) {
@@ -58,8 +60,8 @@ window.mapModule = (function () {
       mapModule.location = 'x: ' + mapModule.locationX + ', y: ' + (mapModule.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
     };
 
-    var mainPinMouseUpHandler = function () {
-      window.mapModule.activateMap();
+    var mainPinMouseUpHandler = function (mouseUpEvt) {
+      window.mapModule.activateMap(mouseUpEvt);
       window.activateForm();
 
       document.removeEventListener('mousemove', mainPinMouseMoveHandler);
