@@ -20,9 +20,6 @@
         nextAction();
       }
     },
-    getRandomArbitrary: function (min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    },
     removeChilds: function (element) {
       while (element.firstChild) {
         element.removeChild(element.firstChild);
@@ -32,7 +29,7 @@
       var div = document.createElement('div');
       div.classList.add('errorBlock');
       div.innerHTML = message;
-      div.style.position = 'absolute';
+      div.style.position = 'fixed';
       div.style.top = '50%';
       div.style.left = '50%';
       div.style.zIndex = '10';
