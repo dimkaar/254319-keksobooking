@@ -30,7 +30,7 @@
       div.classList.add('errorBlock');
       div.innerHTML = message;
       div.style.position = 'fixed';
-      div.style.top = '50%';
+      div.style.top = '10%';
       div.style.left = '50%';
       div.style.zIndex = '10';
       div.style.display = 'flex';
@@ -38,7 +38,7 @@
       div.style.alignItems = 'center';
       div.style.minWidth = '200px';
       div.style.minHeight = '100px';
-      div.style.padding = '20px 0';
+      div.style.padding = '20px 15px';
       div.style.transform = 'translate(-50%, -50%)';
       div.style.boxSizing = 'border-box';
       div.style.color = '#ff5635';
