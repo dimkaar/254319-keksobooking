@@ -24,8 +24,7 @@ window.mapModule = (function () {
   mapModule.activateMap = function (evt) {
     window.util.mapBlock.classList.remove('map--faded');
     pinsMap.appendChild(window.pinModule.fragment);
-
-    mapModule.location = 'x: ' + evt.clientX + ', y: ' + (evt.clientY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
+    window.inputAddress(window.util.noticeForm.querySelector('#address'), ('x: ' + evt.clientX + ', y: ' + (evt.clientY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
   };
 
   mapModule.escKeyDownHandler = function (evt) {
@@ -57,7 +56,7 @@ window.mapModule = (function () {
         mapModule.locationX = window.util.mainPin.offsetLeft - shift.x;
         window.util.mainPin.style.left = mapModule.locationX + 'px';
       }
-      mapModule.location = 'x: ' + mapModule.locationX + ', y: ' + (mapModule.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
+      window.inputAddress(window.util.noticeForm.querySelector('#address'), ('x: ' + mapModule.locationX + ', y: ' + (mapModule.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
     };
 
     var mainPinMouseUpHandler = function (mouseUpEvt) {

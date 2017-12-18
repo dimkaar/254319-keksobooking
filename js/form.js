@@ -34,7 +34,9 @@
   };
 
   var substituteInputValue = function (input, data) {
-    input.value = data ? data : 'mock address';
+    if (data) {
+      input.value = data;
+    }
   };
 
   var checkTitleValidity = function () {
@@ -178,4 +180,5 @@
   };
 
   window.activateForm = activateNoticeForm;
+  window.inputAddress = substituteInputValue;
 })();
