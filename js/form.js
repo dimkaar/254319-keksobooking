@@ -40,8 +40,6 @@
   };
 
   var checkTitleValidity = function () {
-    error = false;
-    adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
     if (adTitleInput.validity.tooShort || adTitleInput.value.length < 30 || !adTitleInput.value) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка меньше 30 символов');
@@ -50,22 +48,26 @@
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка больше 100 символов');
       error = true;
+    } else {
+      adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+      adTitleInput.setCustomValidity('');
+      error = false;
     }
   };
 
   var checkAddressValidity = function () {
-    error = false;
-    adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
     if (adAddressInput === '' || !adAddressInput.value) {
       adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
       adAddressInput.setCustomValidity('Укажите адрес в формате: x: 000, y: 000');
       error = true;
+    } else {
+      adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+      adAddressInput.setCustomValidity('');
+      error = false;
     }
   };
 
   var checkPriceValidity = function () {
-    error = false;
-    adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
     if (adPriceInput.value < adPriceInput.min) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена меньше минимальной');
@@ -75,8 +77,9 @@
       adPriceInput.setCustomValidity('Цена больше максимальной');
       error = true;
     } else {
-      adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
+      adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adPriceInput.setCustomValidity('');
+      error = false;
     }
   };
 
@@ -172,6 +175,7 @@
   };
 
   var submitHandler = function (evt) {
+    error = false;
     submitForm(evt);
   };
 
