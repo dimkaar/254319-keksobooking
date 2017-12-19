@@ -197,6 +197,8 @@
     resetFields();
   };
 
-  window.activateForm = activateNoticeForm;
-  window.inputAddress = substituteInputValue;
+  window.formModule = {
+    activateNoticeForm: activateNoticeForm,
+    substituteInputValue: substituteInputValue
+  };
 })();

@@ -1,7 +1,6 @@
 'use strict';
 
-window.cardModule = (function () {
-  var cardModule = {};
+(function () {
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
   var chooseAdvert = function () {
@@ -15,32 +14,32 @@ window.cardModule = (function () {
     return pinId;
   };
 
-  cardModule.removePopup = function () {
+  var removePopup = function () {
     var popup = document.querySelector('.popup');
     if (popup) {
       popup.remove();
     }
   };
 
-  cardModule.popupCloseClickHandler = function () {
-    cardModule.removePopup();
+  var popupCloseClickHandler = function () {
+    removePopup();
     window.pinModule.removeActivePin();
   };
 
-  window.showCard = function () {
+  var showCard = function () {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
     var pinId = chooseAdvert();
     if (!window.util.mapBlock.querySelector('.popup')) {
-      var card = cardModule.renderAd(window.util.adsArray[pinId]);
+      var card = renderAd(window.util.adsArray[pinId]);
       window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
   };
 
-  cardModule.popupCloseKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, cardModule.removePopup, window.pinModule.removeActivePin);
+  var popupCloseKeyDownHandler = function (evt) {
+    window.util.isEnterEvent(evt, removePopup, window.pinModule.removeActivePin);
   };
 
-  cardModule.renderAd = function (adData) {
+  var renderAd = function (adData) {
     var instanceOfAd = article.cloneNode(true);
     var fragment = document.createDocumentFragment();
     var featuresElement = instanceOfAd.querySelector('.popup__features');
@@ -71,10 +70,16 @@ window.cardModule = (function () {
     featuresElement.appendChild(fragment);
     instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
     popupClose.tabIndex = 0;
-    popupClose.addEventListener('click', cardModule.popupCloseClickHandler);
-    popupClose.addEventListener('keydown', cardModule.popupCloseKeydownHandler);
+    popupClose.addEventListener('click', popupCloseClickHandler);
+    popupClose.addEventListener('keydown', popupCloseKeyDownHandler);
     return instanceOfAd;
   };
 
-  return cardModule;
+  window.cardModule = {
+    removePopup: removePopup,
+    popupCloseClickHandler: popupCloseClickHandler,
+    renderAd: renderAd,
+    popupCloseKeyDownHandler: popupCloseKeyDownHandler,
+    showCard: showCard
+  };
 })();

@@ -1,18 +1,16 @@
 'use strict';
 
-window.pinModule = (function () {
-  var pinModule = {};
+(function () {
   var WHITE_SPADE_HEIGHT = 18;
   var BUBBLE_HEIGHT = 44;
   var fragment = document.createDocumentFragment();
-  pinModule.fragment = fragment;
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
   var secondaryPinClickHandler = function (evt) {
     window.cardModule.removePopup();
-    pinModule.removeActivePin();
+    removeActivePin();
     makePinActive(evt);
-    window.showCard(evt);
+    window.cardModule.showCard(evt);
     document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
@@ -20,7 +18,7 @@ window.pinModule = (function () {
     window.util.adsArray = data;
     var pinNumberToRender = 8;
     for (var i = 0; i < pinNumberToRender; i++) {
-      pinModule.fragment.appendChild(renderButton(window.util.adsArray[i]));
+      fragment.appendChild(renderButton(window.util.adsArray[i]));
     }
   };
 
@@ -29,11 +27,11 @@ window.pinModule = (function () {
     currentPin.classList.add('map__pin--active');
   };
 
-  pinModule.mainPinKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, window.mapModule.activateMap, window.activateForm);
+  var mainPinKeyDownHandler = function (evt) {
+    window.util.isEnterEvent(evt, window.mapModule.activateMap, window.formModule.activateNoticeForm);
   };
 
-  pinModule.removeActivePin = function () {
+  var removeActivePin = function () {
     var activePin = window.util.mapBlock.querySelector('.map__pin--active');
     if (activePin) {
       activePin.classList.remove('map__pin--active');
@@ -49,8 +47,12 @@ window.pinModule = (function () {
     return instanceButton;
   };
 
-  window.util.mainPin.addEventListener('keydown', pinModule.mainPinKeyDownHandler);
+  window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
   window.backend.load(successHandler, window.util.errorHandler);
 
-  return pinModule;
+  window.pinModule = {
+    fragment: fragment,
+    mainPinKeyDownHandler: mainPinKeyDownHandler,
+    removeActivePin: removeActivePin
+  };
 })();
