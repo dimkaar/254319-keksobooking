@@ -20,13 +20,35 @@
         nextAction();
       }
     },
-    getRandomArbitrary: function (min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    },
     removeChilds: function (element) {
       while (element.firstChild) {
         element.removeChild(element.firstChild);
       }
+    },
+    errorHandler: function (message) {
+      var div = document.createElement('div');
+      div.classList.add('errorBlock');
+      div.innerHTML = message;
+      div.style.position = 'fixed';
+      div.style.top = '10%';
+      div.style.left = '50%';
+      div.style.zIndex = '10';
+      div.style.display = 'flex';
+      div.style.justifyContent = 'center';
+      div.style.alignItems = 'center';
+      div.style.minWidth = '200px';
+      div.style.minHeight = '100px';
+      div.style.padding = '20px 15px';
+      div.style.transform = 'translate(-50%, -50%)';
+      div.style.boxSizing = 'border-box';
+      div.style.color = '#ff5635';
+      div.style.fontSize = '24px';
+      div.style.lineHeight = '32px';
+      div.style.backgroundColor = '#ffffff';
+      div.style.border = '3px solid #ff5635';
+      div.style.borderRadius = '5px';
+      div.style.boxShadow = '0 0 10px 10px rgba(255, 86, 53, .7)';
+      mapBlock.appendChild(div);
     },
     adsArray: [],
     noticeForm: noticeForm,

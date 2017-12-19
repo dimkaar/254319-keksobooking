@@ -4,6 +4,17 @@ window.cardModule = (function () {
   var cardModule = {};
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
+  var chooseAdvert = function () {
+    var pins = window.util.mapBlock.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var pinId = 0;
+    for (var i = 0; i < pins.length; i++) {
+      if (pins[i].classList.contains('map__pin--active')) {
+        pinId = i;
+      }
+    }
+    return pinId;
+  };
+
   cardModule.removePopup = function () {
     var popup = document.querySelector('.popup');
     if (popup) {
@@ -16,9 +27,9 @@ window.cardModule = (function () {
     window.pinModule.removeActivePin();
   };
 
-  window.showCard = function (evt) {
+  window.showCard = function () {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
-    var pinId = parseInt(evt.currentTarget.dataset.id, 10);
+    var pinId = chooseAdvert();
     if (!window.util.mapBlock.querySelector('.popup')) {
       var card = cardModule.renderAd(window.util.adsArray[pinId]);
       window.util.mapBlock.insertBefore(card, insertBeforeBlock);
@@ -56,6 +67,7 @@ window.cardModule = (function () {
       newLi.classList = 'feature feature--' + adData.offer.features[i];
       fragment.appendChild(newLi);
     }
+    instanceOfAd.querySelectorAll('p')[4].textContent = adData.offer.description;
     featuresElement.appendChild(fragment);
     instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
     popupClose.tabIndex = 0;

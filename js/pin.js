@@ -16,6 +16,14 @@ window.pinModule = (function () {
     document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
+  var successHandler = function (data) {
+    window.util.adsArray = data;
+    var pinNumberToRender = 8;
+    for (var i = 0; i < pinNumberToRender; i++) {
+      pinModule.fragment.appendChild(renderButton(window.util.adsArray[i]));
+    }
+  };
+
   var makePinActive = function (evt) {
     var currentPin = evt.currentTarget;
     currentPin.classList.add('map__pin--active');
@@ -41,11 +49,8 @@ window.pinModule = (function () {
     return instanceButton;
   };
 
-  for (var i = 0; i < 8; i++) {
-    pinModule.fragment.appendChild(renderButton(window.util.adsArray[i]));
-  }
-
   window.util.mainPin.addEventListener('keydown', pinModule.mainPinKeyDownHandler);
+  window.backend.load(successHandler, window.util.errorHandler);
 
   return pinModule;
 })();
