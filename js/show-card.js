@@ -41,7 +41,7 @@
         break;
       case 'house': houseTypeHeader.textContent = 'Дом';
         break;
-      case 'bungalo': houseTypeHeader.textContent = 'Бунгало';
+      case 'bungalo': houseTypeHeader.textContent = 'Лачуга';
         break;
       default: houseTypeHeader.textContent = 'Не указано';
         break;
