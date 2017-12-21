@@ -88,6 +88,12 @@
     document.addEventListener('mouseup', mainPinMouseUpHandler);
   };
 
+  var successHandler = function (data) {
+    window.util.adsArray = data;
+    window.pinModule.renderPinsFragment(window.util.adsArray);
+  };
+
+  window.backend.load(successHandler, window.util.errorHandler);
   window.util.mainPin.addEventListener('mouseup', mapModule.mainPinMouseUpHandler);
   window.util.mainPin.addEventListener('mousedown', mapModule.mainPinMouseDownHandler);
 

@@ -8,17 +8,12 @@
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
-  var secondaryPinClickHandler = function (evt) {
+  var secondaryPinClickHandler = function (evt, data) {
     window.cardModule.removePopup();
     removeActivePin();
     makePinActive(evt);
-    window.cardModule.showCard();
+    window.cardModule.showCard(data);
     document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
-  };
-
-  var successHandler = function (data) {
-    window.util.adsArray = data;
-    renderPinsFragment(window.util.adsArray);
   };
 
   var makePinActive = function (evt) {
@@ -50,12 +45,13 @@
     var instanceButton = buttonTemplate.cloneNode(true);
     instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     instanceButton.querySelector('img').src = elementData.author.avatar;
-    instanceButton.addEventListener('click', secondaryPinClickHandler);
+    instanceButton.addEventListener('click', function (evt) {
+      secondaryPinClickHandler (evt, elementData);
+    });
     return instanceButton;
   };
 
   window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
-  window.backend.load(successHandler, window.util.errorHandler);
 
   window.pinModule = {
     fragment: fragment,

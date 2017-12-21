@@ -3,17 +3,6 @@
 (function () {
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
-  var chooseAdvert = function () {
-    var pins = window.util.mapBlock.querySelectorAll('.map__pin:not(.map__pin--main)');
-    var pinId = 0;
-    for (var i = 0; i < pins.length; i++) {
-      if (pins[i].classList.contains('map__pin--active')) {
-        pinId = i;
-      }
-    }
-    return pinId;
-  };
-
   var removePopup = function () {
     var popup = document.querySelector('.popup');
     if (popup) {
@@ -26,11 +15,10 @@
     window.pinModule.removeActivePin();
   };
 
-  var showCard = function () {
+  var showCard = function (data) {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
-    var pinId = chooseAdvert();
     if (!window.util.mapBlock.querySelector('.popup')) {
-      var card = renderAd(window.util.adsArray[pinId]);
+      var card = renderAd(data);
       window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
   };
