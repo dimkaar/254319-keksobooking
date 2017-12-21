@@ -77,9 +77,6 @@
 
   window.cardModule = {
     removePopup: removePopup,
-    popupCloseClickHandler: popupCloseClickHandler,
-    renderAd: renderAd,
-    popupCloseKeyDownHandler: popupCloseKeyDownHandler,
     showCard: showCard
   };
 })();
