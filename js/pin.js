@@ -46,7 +46,7 @@
     instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     instanceButton.querySelector('img').src = elementData.author.avatar;
     instanceButton.addEventListener('click', function (evt) {
-      secondaryPinClickHandler (evt, elementData);
+      secondaryPinClickHandler(evt, elementData);
     });
     return instanceButton;
   };
