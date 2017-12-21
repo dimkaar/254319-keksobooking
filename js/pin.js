@@ -3,6 +3,8 @@
 (function () {
   var WHITE_SPADE_HEIGHT = 18;
   var BUBBLE_HEIGHT = 44;
+  var START_POSITION = 1;
+  var PIN_NUMBER_TO_RENDER = 5;
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
@@ -10,16 +12,13 @@
     window.cardModule.removePopup();
     removeActivePin();
     makePinActive(evt);
-    window.cardModule.showCard(evt);
+    window.cardModule.showCard();
     document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
   var successHandler = function (data) {
     window.util.adsArray = data;
-    var pinNumberToRender = 8;
-    for (var i = 0; i < pinNumberToRender; i++) {
-      fragment.appendChild(renderButton(window.util.adsArray[i]));
-    }
+    renderPinsFragment(window.util.adsArray);
   };
 
   var makePinActive = function (evt) {
@@ -38,11 +37,19 @@
     }
   };
 
+  var renderPinsFragment = function (array) {
+    for (var i = 0; i < array.length; i++) {
+      fragment.appendChild(renderButton(array[i]));
+      if (i + START_POSITION >= PIN_NUMBER_TO_RENDER) {
+        break;
+      }
+    }
+  };
+
   var renderButton = function (elementData) {
     var instanceButton = buttonTemplate.cloneNode(true);
     instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     instanceButton.querySelector('img').src = elementData.author.avatar;
-    instanceButton.dataset.id = elementData.id;
     instanceButton.addEventListener('click', secondaryPinClickHandler);
     return instanceButton;
   };
@@ -52,7 +59,7 @@
 
   window.pinModule = {
     fragment: fragment,
-    mainPinKeyDownHandler: mainPinKeyDownHandler,
-    removeActivePin: removeActivePin
+    removeActivePin: removeActivePin,
+    renderPinsFragment: renderPinsFragment
   };
 })();
