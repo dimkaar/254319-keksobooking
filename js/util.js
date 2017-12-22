@@ -6,6 +6,7 @@
   var mapBlock = document.querySelector('.map');
   var noticeForm = document.querySelector('.notice__form');
   var mainPin = mapBlock.querySelector('.map__pin--main');
+  var lastTimeout = null;
 
   window.util = {
     isEscEvent: function (evt, action, nextAction) {
@@ -49,6 +50,12 @@
       div.style.borderRadius = '5px';
       div.style.boxShadow = '0 0 10px 10px rgba(255, 86, 53, .7)';
       mapBlock.appendChild(div);
+    },
+    debounce: function (callback, timeout) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(callback, timeout);
     },
     adsArray: [],
     noticeForm: noticeForm,
