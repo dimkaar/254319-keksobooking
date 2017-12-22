@@ -13,7 +13,6 @@
     removeActivePin();
     makePinActive(evt);
     window.cardModule.showCard(data);
-    document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
   var makePinActive = function (evt) {
