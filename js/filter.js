@@ -18,32 +18,44 @@
     return false;
   };
 
-  var filterByPrice = function (arrayOfAds, value) {
-    return arrayOfAds.filter(function (ad) {
+  var filterByPrice = function (ads, value) {
+    return ads.filter(function (ad) {
       return returnByPriceRange(ad.offer.price, value);
     });
   };
 
-  var filterByValue = function (arrayOfAds, filter, value) {
-    return arrayOfAds.filter(function (ad) {
+  var filterByValue = function (ads, filter, value) {
+    return ads.filter(function (ad) {
       return ad.offer[filter].toString() === value || value === 'any';
     });
   };
 
-  var filterByFeatures = function (arrayOfAds, feature) {
-    return arrayOfAds.filter(function (ad) {
+  var filterByNumberValue = function (ads, filter, value) {
+    return ads.filter(function (ad) {
+      return parseInt(ad.offer[filter], 10) >= value;
+    });
+  };
+
+  var filterByFeatures = function (ads, feature) {
+    return ads.filter(function (ad) {
       return ad.offer.features.indexOf(feature) !== -1;
     });
   };
 
-  var filtrate = function (arrayOfAds) {
-    filteredAds = arrayOfAds.slice(0);
+  var filtrate = function (ads) {
+    filteredAds = ads.slice(0);
     var features = filtersParentNode.querySelectorAll('input[name="features"]:checked');
 
     filters.forEach(function (currentFilter) {
       if (currentFilter.value !== 'any') {
         var filterType = currentFilter.name.split('-').splice(1, 1).toString();
-        filteredAds = (filterType !== 'price') ? filterByValue(filteredAds, filterType, currentFilter.value) : filterByPrice(filteredAds, currentFilter.value);
+        if (filterType !== 'price' && filterType !== 'guests' || isNaN(parseInt(currentFilter.value, 10))) {
+          filteredAds = filterByValue(filteredAds, filterType, currentFilter.value);
+        } else if (filterType === 'guests' && !isNaN(parseInt(currentFilter.value, 10))) {
+          filteredAds = filterByNumberValue(filteredAds, filterType, parseInt(currentFilter.value, 10));
+        } else {
+          filteredAds = filterByPrice(filteredAds, currentFilter.value);
+        }
       }
     });
 
