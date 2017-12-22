@@ -43,7 +43,7 @@
       }
     }
     window.cardModule.removePopup();
-    var filteredAds = window.filterModule.filtrate(window.util.adsArray);
+    var filteredAds = window.filterModule.filtrate(window.util.ads);
     window.pinModule.renderPinsFragment(filteredAds);
     mapModule.appendFragment(window.pinModule.fragment);
   };
@@ -89,8 +89,8 @@
   };
 
   var successHandler = function (data) {
-    window.util.adsArray = data;
-    window.pinModule.renderPinsFragment(window.util.adsArray);
+    window.util.ads = data;
+    window.pinModule.renderPinsFragment(window.util.ads);
   };
 
   window.backend.load(successHandler, window.util.errorHandler);

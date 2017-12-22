@@ -12,7 +12,7 @@
   var adDescription = window.util.noticeForm.querySelector('#description');
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
   var error = false;
-  var fieldsValuesArrays = {
+  var fieldsValues = {
     TIMES_IN: ['12:00', '13:00', '14:00'],
     TIMES_OUT: ['12:00', '13:00', '14:00'],
     BUILDING_TYPES: ['flat', 'bungalo', 'house', 'palace'],
@@ -94,9 +94,9 @@
     adTypeSelect.querySelectorAll('option')[0].selected = true;
     adTimeinSelect.querySelectorAll('option')[0].selected = true;
     adRoomNumber.querySelectorAll('option')[0].selected = true;
-    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
-    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValuesArrays.TIMES_IN, fieldsValuesArrays.TIMES_OUT, syncValues);
-    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
+    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValues.BUILDING_TYPES, fieldsValues.MINIMAL_PRICES, syncValueWithMin);
+    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValues.TIMES_IN, fieldsValues.TIMES_OUT, syncValues);
+    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValues.ROOMS_NUMBER, fieldsValues.CAPACITY_VALUES, syncValues);
     adPriceInput.value = adPriceInput.min;
     adDescription.value = '';
     disableOptions();
@@ -151,9 +151,9 @@
     adPriceInput.value = 1000;
     adPriceInput.max = 1000000;
     adPriceInput.addEventListener('invalid', checkPriceValidity);
-    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValuesArrays.TIMES_IN, fieldsValuesArrays.TIMES_OUT, syncValues);
-    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
-    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
+    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValues.TIMES_IN, fieldsValues.TIMES_OUT, syncValues);
+    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValues.BUILDING_TYPES, fieldsValues.MINIMAL_PRICES, syncValueWithMin);
+    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValues.ROOMS_NUMBER, fieldsValues.CAPACITY_VALUES, syncValues);
     disableOptions();
     substituteInputValue(adAddressInput, window.mapModule.location);
     adTimeinSelect.addEventListener('change', timeinChangeHandler);
@@ -171,20 +171,20 @@
   };
 
   var timeinChangeHandler = function () {
-    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValuesArrays.TIMES_IN, fieldsValuesArrays.TIMES_OUT, syncValues);
+    window.synchronizeFields(adTimeinSelect, adTimeoutSelect, fieldsValues.TIMES_IN, fieldsValues.TIMES_OUT, syncValues);
   };
 
   var timeoutChangeHandler = function () {
-    window.synchronizeFields(adTimeoutSelect, adTimeinSelect, fieldsValuesArrays.TIMES_OUT, fieldsValuesArrays.TIMES_IN, syncValues);
+    window.synchronizeFields(adTimeoutSelect, adTimeinSelect, fieldsValues.TIMES_OUT, fieldsValues.TIMES_IN, syncValues);
   };
 
 
   var typeChangeHandler = function () {
-    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValuesArrays.BUILDING_TYPES, fieldsValuesArrays.MINIMAL_PRICES, syncValueWithMin);
+    window.synchronizeFields(adTypeSelect, adPriceInput, fieldsValues.BUILDING_TYPES, fieldsValues.MINIMAL_PRICES, syncValueWithMin);
   };
 
   var roomNumberChangeHandler = function () {
-    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValuesArrays.ROOMS_NUMBER, fieldsValuesArrays.CAPACITY_VALUES, syncValues);
+    window.synchronizeFields(adRoomNumber, adCapacity, fieldsValues.ROOMS_NUMBER, fieldsValues.CAPACITY_VALUES, syncValues);
     disableOptions();
   };
 
