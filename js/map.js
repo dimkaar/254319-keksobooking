@@ -7,11 +7,11 @@
   var MAIN_PIN_SPADE = 16;
   var pinsMap = window.util.mapBlock.querySelector('.map__pins');
   var pinsMapStyle = getComputedStyle(pinsMap);
-  var minY = 100;
-  var maxY = 500;
-  var minX = pinsMap.offsetTop;
-  var maxX = pinsMapStyle.width;
-  maxX = parseInt(maxX.replace('px', ''), 10);
+  var MIN_Y = 100;
+  var MAX_Y = 500;
+  var MIN_X = pinsMap.offsetTop;
+  var MAX_X = pinsMapStyle.width;
+  MAX_X = parseInt(MAX_X.replace('px', ''), 10);
   var init = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
     window.util.mapBlock.classList.add('map--faded');
@@ -65,11 +65,11 @@
         y: moveEvt.clientY
       };
 
-      if (window.util.mainPin.offsetTop - shift.y >= minY && window.util.mainPin.offsetTop - shift.y <= maxY) {
+      if (window.util.mainPin.offsetTop - shift.y >= MIN_Y && window.util.mainPin.offsetTop - shift.y <= MAX_Y) {
         mapModule.locationY = window.util.mainPin.offsetTop - shift.y;
         window.util.mainPin.style.top = mapModule.locationY + 'px';
       }
-      if (window.util.mainPin.offsetLeft - shift.x >= minX && window.util.mainPin.offsetLeft - shift.x <= maxX) {
+      if (window.util.mainPin.offsetLeft - shift.x >= MIN_X && window.util.mainPin.offsetLeft - shift.x <= MAX_X) {
         mapModule.locationX = window.util.mainPin.offsetLeft - shift.x;
         window.util.mainPin.style.left = mapModule.locationX + 'px';
       }
