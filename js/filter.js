@@ -49,11 +49,11 @@
     filters.forEach(function (currentFilter) {
       if (currentFilter.value !== 'any') {
         var filterType = currentFilter.name.split('-').splice(1, 1).toString();
-        if (filterType !== 'price' && filterType !== 'guests' || isNaN(parseInt(currentFilter.value, 10))) {
+        if (filterType !== 'price' && (filterType !== 'guests' || isNaN(parseInt(currentFilter.value, 10)))) {
           filteredAds = filterByValue(filteredAds, filterType, currentFilter.value);
         } else if (filterType === 'guests' && !isNaN(parseInt(currentFilter.value, 10))) {
           filteredAds = filterByNumberValue(filteredAds, filterType, parseInt(currentFilter.value, 10));
-        } else {
+        } else if (filterType === 'price') {
           filteredAds = filterByPrice(filteredAds, currentFilter.value);
         }
       }
