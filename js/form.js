@@ -7,7 +7,6 @@
   var MINIMAL_PRICES = ['1000', '0', '5000', '10000'];
   var ROOMS_NUMBER = ['1', '2', '3', '100'];
   var CAPACITY_VALUES = ['1', '2', '3', '0'];
-  
   var adTitleInput = window.util.noticeForm.querySelector('#title');
   var adAddressInput = window.util.noticeForm.querySelector('#address');
   var adPriceInput = window.util.noticeForm.querySelector('#price');
