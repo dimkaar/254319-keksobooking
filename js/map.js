@@ -16,9 +16,9 @@
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
     window.util.mapBlock.classList.add('map--faded');
     window.util.noticeForm.classList.add('notice__form--disabled');
-    for (var i = 0; i < noticeFormFieldsets.length; i++) {
-      noticeFormFieldsets[i].disabled = true;
-    }
+    noticeFormFieldsets.forEach(function (fieldset) {
+      fieldset.disabled = true;
+    });
     window.formModule.substituteInputValue(window.util.noticeForm.querySelector('#address'), ('x: ' + window.util.mainPin.offsetLeft + ', y: ' + (window.util.mainPin.offsetTop + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
   };
 
@@ -38,9 +38,9 @@
   mapModule.updatePins = function () {
     var pinsElements = pinsMap.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (pinsElements.length > 0) {
-      for (var i = 0; i < pinsElements.length; i++) {
-        pinsMap.removeChild(pinsElements[i]);
-      }
+      pinsElements.forEach(function (pin) {
+        pinsMap.removeChild(pin);
+      });
     }
     window.cardModule.removePopup();
     var filteredAds = window.filterModule.filtrate(window.util.ads);
