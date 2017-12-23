@@ -4,6 +4,7 @@
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
   var removePopup = function () {
+    document.removeEventListener('keydown', window.mapModule.escKeyDownHandler);
     var popup = document.querySelector('.popup');
     if (popup) {
       popup.remove();
@@ -21,6 +22,7 @@
       var card = renderAd(data);
       window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
+    document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
   var popupCloseKeyDownHandler = function (evt) {

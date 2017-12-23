@@ -57,7 +57,7 @@
       }
       lastTimeout = window.setTimeout(callback, timeout);
     },
-    adsArray: [],
+    ads: [],
     noticeForm: noticeForm,
     mapBlock: mapBlock,
     mainPin: mainPin

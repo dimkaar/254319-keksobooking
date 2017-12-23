@@ -13,7 +13,6 @@
     removeActivePin();
     makePinActive(evt);
     window.cardModule.showCard(data);
-    document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
   };
 
   var makePinActive = function (evt) {
@@ -32,9 +31,9 @@
     }
   };
 
-  var renderPinsFragment = function (array) {
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(renderButton(array[i]));
+  var renderPinsFragment = function (pins) {
+    for (var i = 0; i < pins.length; i++) {
+      fragment.appendChild(renderButton(pins[i]));
       if (i + START_POSITION >= PIN_NUMBER_TO_RENDER) {
         break;
       }
