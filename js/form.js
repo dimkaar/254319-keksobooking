@@ -16,8 +16,8 @@
   var adRoomNumber = window.util.noticeForm.querySelector('#room_number');
   var adCapacity = window.util.noticeForm.querySelector('#capacity');
   var adDescription = window.util.noticeForm.querySelector('#description');
+  var adFormSubmit = window.util.noticeForm.querySelector('.form__submit');
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
-  var error = false;
 
   var activateNoticeForm = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
@@ -29,6 +29,8 @@
     adFormReset.addEventListener('click', resetFields);
     adFormReset.addEventListener('keydown', resetFields);
     window.util.noticeForm.addEventListener('submit', submitHandler);
+    adFormSubmit.addEventListener('click', submitHandler);
+    adFormSubmit.addEventListener('keydown', submitKeyDownHandler);
   };
 
   var substituteInputValue = function (input, data) {
@@ -37,53 +39,38 @@
     }
   };
 
-  var checkTitleValidity = function () {
+  var checkFormValidity = function () {
     if (adTitleInput.validity.tooShort || parseInt(adTitleInput.value.length, 10) < 30 || !adTitleInput.value) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка меньше 30 символов');
-      adTitleInput.addEventListener('change', changeTitleHandler);
-      error = true;
+      adTitleInput.addEventListener('change', checkFormValidity);
+      return true;
     } else if (adTitleInput.validity.tooLong || parseInt(adTitleInput.value.length, 10) > 100) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка больше 100 символов');
-      adTitleInput.addEventListener('change', changeTitleHandler);
-      error = true;
-    } else {
-      adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adTitleInput.setCustomValidity('');
-      adTitleInput.removeEventListener('change', changeTitleHandler);
-      error = false;
-    }
-  };
-
-  var checkAddressValidity = function () {
-    if (adAddressInput === '' || !adAddressInput.value || adAddressInput.validity.valueMissing) {
+      adTitleInput.addEventListener('change', checkFormValidity);
+      return true;
+    } else if (adAddressInput === '' || !adAddressInput.value || adAddressInput.validity.valueMissing) {
       adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
       adAddressInput.setCustomValidity('Укажите адрес в формате: x: 000, y: 000');
-      error = true;
-    } else {
-      adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adAddressInput.setCustomValidity('');
-      error = false;
-    }
-  };
-
-  var checkPriceValidity = function () {
-    if (parseInt(adPriceInput.value, 10) < parseInt(adPriceInput.min, 10) || adPriceInput.validity.rangeUnderflow) {
+      return true;
+    } else if (parseInt(adPriceInput.value, 10) < parseInt(adPriceInput.min, 10) || adPriceInput.validity.rangeUnderflow) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена меньше минимальной');
-      adPriceInput.addEventListener('change', changePriceHandler);
-      error = true;
+      adPriceInput.addEventListener('change', checkFormValidity);
+      return true;
     } else if (parseInt(adPriceInput.value, 10) > parseInt(adPriceInput.max, 10) || adPriceInput.validity.rangeOverflow) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена больше максимальной');
-      adPriceInput.addEventListener('change', changePriceHandler);
-      error = true;
+      adPriceInput.addEventListener('change', checkFormValidity);
+      return true;
     } else {
       adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adPriceInput.setCustomValidity('');
+      adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+      adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adPriceInput.removeEventListener('change', changePriceHandler);
-      error = false;
+      adTitleInput.removeEventListener('change', changeTitleHandler);
+      return false;
     }
   };
 
@@ -104,11 +91,11 @@
     disableOptions();
   };
 
-  var submitForm = function (evt) {
-    if (!error) {
+  var submitForm = function (evt, errorCheck) {
+    evt.preventDefault();
+    if (!errorCheck()) {
       window.backend.save(new FormData(window.util.noticeForm), successHandler, window.util.errorHandler);
     }
-    evt.preventDefault();
   };
 
   var syncValues = function (element, value) {
@@ -144,15 +131,12 @@
     adTitleInput.required = true;
     adTitleInput.minLength = 30;
     adTitleInput.maxLength = 100;
-    adTitleInput.addEventListener('invalid', checkTitleValidity);
     adAddressInput.readOnly = true;
     adAddressInput.required = true;
-    adAddressInput.addEventListener('invalid', checkAddressValidity);
     adPriceInput.required = true;
     adPriceInput.min = 0;
     adPriceInput.value = 1000;
     adPriceInput.max = 1000000;
-    adPriceInput.addEventListener('invalid', checkPriceValidity);
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
@@ -162,14 +146,6 @@
     adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
     adTypeSelect.addEventListener('change', typeChangeHandler);
     adRoomNumber.addEventListener('change', roomNumberChangeHandler);
-  };
-
-  var changeTitleHandler = function () {
-    checkTitleValidity();
-  };
-
-  var changePriceHandler = function () {
-    checkPriceValidity();
   };
 
   var timeinChangeHandler = function () {
@@ -190,9 +166,12 @@
     disableOptions();
   };
 
+  var submitKeyDownHandler = function (evt) {
+    window.util.isEnterEvent(evt, adFormSubmit);
+  };
+
   var submitHandler = function (evt) {
-    error = false;
-    submitForm(evt);
+    submitForm(evt, checkFormValidity);
   };
 
   var successHandler = function () {
