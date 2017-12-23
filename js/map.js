@@ -7,8 +7,8 @@
   var MAIN_PIN_SPADE = 16;
   var pinsMap = window.util.mapBlock.querySelector('.map__pins');
   var pinsMapStyle = getComputedStyle(pinsMap);
-  var MIN_Y = 100;
-  var MAX_Y = 500;
+  var MIN_Y = 100 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
+  var MAX_Y = 500 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MIN_X = pinsMap.offsetTop;
   var MAX_X = pinsMapStyle.width;
   MAX_X = parseInt(MAX_X.replace('px', ''), 10);
