@@ -3,7 +3,6 @@
 (function () {
   var WHITE_SPADE_HEIGHT = 18;
   var BUBBLE_HEIGHT = 44;
-  var START_POSITION = 1;
   var PIN_NUMBER_TO_RENDER = 5;
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
@@ -32,11 +31,8 @@
   };
 
   var renderPinsFragment = function (pins) {
-    for (var i = 0; i < pins.length; i++) {
+    for (var i = 0; i < Math.min(pins.length, PIN_NUMBER_TO_RENDER); i++) {
       fragment.appendChild(renderButton(pins[i]));
-      if (i + START_POSITION >= PIN_NUMBER_TO_RENDER) {
-        break;
-      }
     }
   };
 
