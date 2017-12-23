@@ -10,8 +10,7 @@
   var MIN_Y = 100 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MAX_Y = 500 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MIN_X = pinsMap.offsetTop;
-  var MAX_X = pinsMapStyle.width;
-  MAX_X = parseInt(MAX_X.replace('px', ''), 10);
+  var MAX_X = parseInt(pinsMapStyle.width.replace('px', ''), 10);
   var init = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
     window.util.mapBlock.classList.add('map--faded');
