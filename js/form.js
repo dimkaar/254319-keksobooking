@@ -20,11 +20,7 @@
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
 
   var activateNoticeForm = function () {
-    var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
-    window.util.noticeForm.classList.remove('notice__form--disabled');
-    noticeFormFieldsets.forEach(function (fieldset) {
-      fieldset.disabled = false;
-    });
+    fieldsetsUpdate(false);
     updateDefaultInputs();
     adFormReset.addEventListener('click', resetClickHandler);
     adFormReset.addEventListener('keydown', resetKeyDownHandler);
@@ -127,6 +123,14 @@
     }
   };
 
+  var fieldsetsUpdate = function (toggler) {
+    var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
+    window.util.noticeForm.classList.remove('notice__form--disabled');
+    noticeFormFieldsets.forEach(function (fieldset) {
+      fieldset.disabled = toggler;
+    });
+  };
+
   var updateDefaultInputs = function () {
     adTitleInput.required = true;
     adTitleInput.minLength = 30;
@@ -199,6 +203,7 @@
 
   window.formModule = {
     activateNoticeForm: activateNoticeForm,
-    substituteInputValue: substituteInputValue
+    substituteInputValue: substituteInputValue,
+    fieldsetsUpdate: fieldsetsUpdate
   };
 })();

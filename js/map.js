@@ -13,12 +13,9 @@
   var maxX = parseInt(pinsMapStyle.width.replace('px', ''), 10);
 
   var init = function () {
-    var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
+    window.formModule.fieldsetsUpdate(true);
     window.util.mapBlock.classList.add('map--faded');
     window.util.noticeForm.classList.add('notice__form--disabled');
-    noticeFormFieldsets.forEach(function (fieldset) {
-      fieldset.disabled = true;
-    });
     window.formModule.substituteInputValue(window.util.noticeForm.querySelector('#address'), ('x: ' + window.util.mainPin.offsetLeft + ', y: ' + (window.util.mainPin.offsetTop + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
   };
 
