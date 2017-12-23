@@ -68,8 +68,8 @@
       adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adPriceInput.removeEventListener('change', changePriceHandler);
-      adTitleInput.removeEventListener('change', changeTitleHandler);
+      adPriceInput.removeEventListener('change', checkFormValidity);
+      adTitleInput.removeEventListener('change', checkFormValidity);
       return false;
     }
   };
