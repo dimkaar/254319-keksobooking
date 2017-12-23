@@ -178,7 +178,7 @@
   };
 
   var submitKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, submitHandler);
+    window.util.isEnterEvent(evt, submitForm);
   };
 
   var resetKeyDownHandler = function (evt) {
