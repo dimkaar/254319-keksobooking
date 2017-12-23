@@ -167,7 +167,7 @@
   };
 
   var submitKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, adFormSubmit);
+    window.util.isEnterEvent(evt, submitHandler);
   };
 
   var submitHandler = function (evt) {
