@@ -26,10 +26,10 @@
       fieldset.disabled = false;
     });
     updateDefaultInputs();
-    adFormReset.addEventListener('click', resetFields);
-    adFormReset.addEventListener('keydown', resetFields);
+    adFormReset.addEventListener('click', resetClickHandler);
+    adFormReset.addEventListener('keydown', resetKeyDownHandler);
     window.util.noticeForm.addEventListener('submit', submitHandler);
-    adFormSubmit.addEventListener('click', submitHandler);
+    adFormSubmit.addEventListener('click', submitClickHandler);
     adFormSubmit.addEventListener('keydown', submitKeyDownHandler);
   };
 
@@ -43,12 +43,12 @@
     if (adTitleInput.validity.tooShort || parseInt(adTitleInput.value.length, 10) < 30 || !adTitleInput.value) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка меньше 30 символов');
-      adTitleInput.addEventListener('change', checkFormValidity);
+      adTitleInput.addEventListener('change', titleChangeHandler);
       return true;
     } else if (adTitleInput.validity.tooLong || parseInt(adTitleInput.value.length, 10) > 100) {
       adTitleInput.setAttribute('style', 'border: 1px solid #ff0000');
       adTitleInput.setCustomValidity('Длина заголовка больше 100 символов');
-      adTitleInput.addEventListener('change', checkFormValidity);
+      adTitleInput.addEventListener('change', titleChangeHandler);
       return true;
     } else if (adAddressInput === '' || !adAddressInput.value || adAddressInput.validity.valueMissing) {
       adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
@@ -57,19 +57,19 @@
     } else if (parseInt(adPriceInput.value, 10) < parseInt(adPriceInput.min, 10) || adPriceInput.validity.rangeUnderflow) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена меньше минимальной');
-      adPriceInput.addEventListener('change', checkFormValidity);
+      adPriceInput.addEventListener('change', priceChangeHandler);
       return true;
     } else if (parseInt(adPriceInput.value, 10) > parseInt(adPriceInput.max, 10) || adPriceInput.validity.rangeOverflow) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена больше максимальной');
-      adPriceInput.addEventListener('change', checkFormValidity);
+      adPriceInput.addEventListener('change', priceChangeHandler);
       return true;
     } else {
       adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adPriceInput.removeEventListener('change', checkFormValidity);
-      adTitleInput.removeEventListener('change', checkFormValidity);
+      adTitleInput.removeEventListener('change', titleChangeHandler);
+      adPriceInput.removeEventListener('change', priceChangeHandler);
       return false;
     }
   };
@@ -148,6 +148,14 @@
     adRoomNumber.addEventListener('change', roomNumberChangeHandler);
   };
 
+  var titleChangeHandler = function () {
+    checkFormValidity();
+  };
+
+  var priceChangeHandler = function () {
+    checkFormValidity();
+  };
+
   var timeinChangeHandler = function () {
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
   };
@@ -155,7 +163,6 @@
   var timeoutChangeHandler = function () {
     window.synchronizeFields(adTimeoutSelect, adTimeinSelect, TIMES_OUT, TIMES_IN, syncValues);
   };
-
 
   var typeChangeHandler = function () {
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
@@ -168,6 +175,18 @@
 
   var submitKeyDownHandler = function (evt) {
     window.util.isEnterEvent(evt, submitHandler);
+  };
+
+  var resetKeyDownHandler = function (evt) {
+    window.util.isEnterEvent(evt, resetFields);
+  };
+
+  var submitClickHandler = function (evt) {
+    submitForm(evt, checkFormValidity);
+  };
+
+  var resetClickHandler = function () {
+    resetFields();
   };
 
   var submitHandler = function (evt) {
