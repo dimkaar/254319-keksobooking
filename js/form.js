@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var TIMES_IN = ['12:00', '13:00', '14:00'];
+  var TIMES_OUT = ['12:00', '13:00', '14:00'];
+  var BUILDING_TYPES = ['flat', 'bungalo', 'house', 'palace'];
+  var MINIMAL_PRICES = ['1000', '0', '5000', '10000'];
+  var ROOMS_NUMBER = ['1', '2', '3', '100'];
+  var CAPACITY_VALUES = ['1', '2', '3', '0'];
+  
   var adTitleInput = window.util.noticeForm.querySelector('#title');
   var adAddressInput = window.util.noticeForm.querySelector('#address');
   var adPriceInput = window.util.noticeForm.querySelector('#price');
@@ -12,12 +19,6 @@
   var adDescription = window.util.noticeForm.querySelector('#description');
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
   var error = false;
-  var TIMES_IN = ['12:00', '13:00', '14:00'];
-  var TIMES_OUT = ['12:00', '13:00', '14:00'];
-  var BUILDING_TYPES = ['flat', 'bungalo', 'house', 'palace'];
-  var MINIMAL_PRICES = ['1000', '0', '5000', '10000'];
-  var ROOMS_NUMBER = ['1', '2', '3', '100'];
-  var CAPACITY_VALUES = ['1', '2', '3', '0'];
 
   var activateNoticeForm = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
