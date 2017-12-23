@@ -1,16 +1,16 @@
 'use strict';
 
 (function () {
-  var mapModule = {};
-  mapModule.location = '';
   var MAIN_PIN_HEIGHT = 64;
   var MAIN_PIN_SPADE = 16;
-  var pinsMap = window.util.mapBlock.querySelector('.map__pins');
-  var pinsMapStyle = getComputedStyle(pinsMap);
   var MIN_Y = 100 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MAX_Y = 500 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
-  var MIN_X = pinsMap.offsetTop;
-  var MAX_X = parseInt(pinsMapStyle.width.replace('px', ''), 10);
+  var mapModule = {};
+  mapModule.location = '';
+  var pinsMap = window.util.mapBlock.querySelector('.map__pins');
+  var pinsMapStyle = getComputedStyle(pinsMap);
+  var minX = pinsMap.offsetTop;
+  var maxX = parseInt(pinsMapStyle.width.replace('px', ''), 10);
 
   var init = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
@@ -69,7 +69,7 @@
         mapModule.locationY = window.util.mainPin.offsetTop - shift.y;
         window.util.mainPin.style.top = mapModule.locationY + 'px';
       }
-      if (window.util.mainPin.offsetLeft - shift.x >= MIN_X && window.util.mainPin.offsetLeft - shift.x <= MAX_X) {
+      if (window.util.mainPin.offsetLeft - shift.x >= minX && window.util.mainPin.offsetLeft - shift.x <= maxX) {
         mapModule.locationX = window.util.mainPin.offsetLeft - shift.x;
         window.util.mainPin.style.left = mapModule.locationX + 'px';
       }
