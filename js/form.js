@@ -92,11 +92,15 @@
     adTypeSelect.querySelectorAll('option')[0].selected = true;
     adTimeinSelect.querySelectorAll('option')[0].selected = true;
     adRoomNumber.querySelectorAll('option')[0].selected = true;
+    var options = window.util.noticeForm.querySelector('.features').querySelectorAll('input[type=checkbox]');
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
     adPriceInput.value = adPriceInput.min;
     adDescription.value = '';
+    options.forEach(function (option) {
+      option.checked = false;
+    });
     disableOptions();
   };
 
