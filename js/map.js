@@ -11,6 +11,7 @@
   var pinsMapStyle = getComputedStyle(pinsMap);
   var minX = pinsMap.offsetTop;
   var maxX = parseInt(pinsMapStyle.width.replace('px', ''), 10);
+  var appActivated = false;
 
   var init = function () {
     window.formModule.fieldsetsUpdate(true);
@@ -30,6 +31,8 @@
   mapModule.activateMap = function () {
     window.util.mapBlock.classList.remove('map--faded');
     mapModule.appendFragment(window.pinModule.fragment);
+    window.formModule.activateNoticeForm();
+    return true;
   };
 
   mapModule.updatePins = function () {
@@ -74,8 +77,9 @@
     };
 
     var mainPinMouseUpHandler = function (mouseUpEvt) {
-      window.mapModule.activateMap(mouseUpEvt);
-      window.formModule.activateNoticeForm();
+      if (!appActivated) {
+        appActivated = window.mapModule.activateMap(mouseUpEvt);
+      }
 
       document.removeEventListener('mousemove', mainPinMouseMoveHandler);
       document.removeEventListener('mouseup', mainPinMouseUpHandler);
