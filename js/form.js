@@ -22,9 +22,9 @@
   var activateNoticeForm = function () {
     var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
     window.util.noticeForm.classList.remove('notice__form--disabled');
-    for (var i = 0; i < noticeFormFieldsets.length; i++) {
-      noticeFormFieldsets[i].disabled = false;
-    }
+    noticeFormFieldsets.forEach(function (fieldset) {
+      fieldset.disabled = false;
+    });
     updateDefaultInputs();
     adFormReset.addEventListener('click', resetFields);
     adFormReset.addEventListener('keydown', resetFields);
