@@ -69,16 +69,19 @@
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена меньше минимальной');
       adPriceInput.addEventListener('change', priceChangeHandler);
+      adPriceInput.addEventListener('blur', priceBlurHandler);
       return false;
     } else if (adPriceInput.validity.rangeOverflow) {
       adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
       adPriceInput.setCustomValidity('Цена больше максимальной');
       adPriceInput.addEventListener('change', priceChangeHandler);
+      adPriceInput.addEventListener('blur', priceBlurHandler);
       return false;
     } else {
       adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adPriceInput.setCustomValidity('');
       adPriceInput.removeEventListener('change', priceChangeHandler);
+      adPriceInput.removeEventListener('blur', priceBlurHandler);
       return true;
     }
   };
@@ -166,11 +169,27 @@
     adRoomNumber.addEventListener('change', roomNumberChangeHandler);
   };
 
+  var focusField = function (evt) {
+    var targetField = evt.target;
+    switch (targetField) {
+      case adTitleInput: adTitleInput.focus();
+        break;
+      case adAddressInput: adAddressInput.focus();
+        break;
+      case adPriceInput: adPriceInput.focus();
+        break;
+    }
+  };
+
   var titleChangeHandler = function () {
     checkTitleValidity();
   };
 
   var priceChangeHandler = function () {
+    checkPriceValidity();
+  };
+
+  var priceBlurHandler = function () {
     checkPriceValidity();
   };
 
@@ -203,7 +222,10 @@
     submitForm(evt, formInvalidHandler);
   };
 
-  var formInvalidHandler = function () {
+  var formInvalidHandler = function (evt) {
+    if (evt) {
+      focusField(evt);
+    }
     return checkTitleValidity() && checkAddressValidity() && checkPriceValidity();
   };
 
