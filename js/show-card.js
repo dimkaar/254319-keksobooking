@@ -21,6 +21,7 @@
   };
 
   var showCard = function (data) {
+    removePopup();
     var insertBeforeBlock = document.querySelector('.map__filter-container');
     if (!window.util.mapBlock.querySelector('.popup')) {
       var card = renderAd(data);
