@@ -4,11 +4,15 @@
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
   var removePopup = function () {
-    document.removeEventListener('keydown', window.mapModule.escKeyDownHandler);
+    document.removeEventListener('keydown', escKeyDownHandler);
     var popup = document.querySelector('.popup');
     if (popup) {
       popup.remove();
     }
+  };
+
+  var escKeyDownHandler = function (evt) {
+    window.util.isEscEvent(evt, window.cardModule.removePopup, window.pinModule.removeActivePin);
   };
 
   var popupCloseClickHandler = function () {
@@ -22,7 +26,7 @@
       var card = renderAd(data);
       window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     }
-    document.addEventListener('keydown', window.mapModule.escKeyDownHandler);
+    document.addEventListener('keydown', escKeyDownHandler);
   };
 
   var popupCloseKeyDownHandler = function (evt) {

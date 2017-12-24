@@ -24,10 +24,6 @@
     pinsMap.appendChild(fragment);
   };
 
-  mapModule.escKeyDownHandler = function (evt) {
-    window.util.isEscEvent(evt, window.cardModule.removePopup, window.pinModule.removeActivePin);
-  };
-
   mapModule.activateMap = function () {
     window.util.mapBlock.classList.remove('map--faded');
     mapModule.appendFragment(window.pinModule.fragment);
