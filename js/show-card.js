@@ -12,7 +12,7 @@
   };
 
   var escKeyDownHandler = function (evt) {
-    window.util.isEscEvent(evt, window.cardModule.removePopup, window.pinModule.removeActivePin);
+    window.util.isEscEvent(evt, removePopup, window.pinModule.removeActivePin);
   };
 
   var popupCloseClickHandler = function () {
