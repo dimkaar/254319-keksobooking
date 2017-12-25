@@ -7,10 +7,11 @@
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
-  var activateSecondaryPin = function (evt, data) {
+  var secondaryPinClickHandler = function (evt, data) {
+    window.cardModule.removePopup();
     removeActivePin();
     makePinActive(evt);
-    window.cardModule.showCard(data, removeActivePin);
+    window.cardModule.showCard(data);
   };
 
   var makePinActive = function (evt) {
@@ -36,14 +37,13 @@
     instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     instanceButton.querySelector('img').src = elementData.author.avatar;
     instanceButton.addEventListener('click', function (evt) {
-      activateSecondaryPin(evt, elementData);
+      secondaryPinClickHandler(evt, elementData);
     });
     return instanceButton;
   };
 
   window.pinModule = {
     fragment: fragment,
-    removeActivePin: removeActivePin,
     renderPinsFragment: renderPinsFragment
   };
 })();
