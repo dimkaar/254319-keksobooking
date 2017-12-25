@@ -2,26 +2,26 @@
 
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking';
+  var XHR_TIMEOUT = 10000;
+  var HTTP_STATUS_CODES = {
+    200: [true],
+    400: [false, 'Неверный запрос'],
+    401: [false, 'Необходима авторизация'],
+    403: [false, 'Доступ запрещен'],
+    404: [false, 'Запрашиваемые данные не найдены'],
+    500: [false, 'Внутренняя ошибка сервера']
+  };
 
   var xhrSetup = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      var error = '';
-      switch (xhr.status) {
-        case 200: successHandler(xhr.response);
-          break;
-        case 400: error = 'Неверный запрос';
-          break;
-        case 404: error = 'Информация не найдена';
-          break;
-        case 500: error = 'Ошибка сервера';
-          break;
-        default: error = 'Неизвестный статус запроса: ' + xhr.status + ', содержимое: ' + xhr.statusText;
-          break;
-      }
-      if (error) {
-        errorHandler(error);
+      if (HTTP_STATUS_CODES[xhr.status] && HTTP_STATUS_CODES[xhr.status][0]) {
+        successHandler(xhr.response);
+      } else if (!HTTP_STATUS_CODES[xhr.status]) {
+        errorHandler('(HTTP status code: ' + xhr.status + ')');
+      } else {
+        errorHandler(HTTP_STATUS_CODES[xhr.status][1]);
       }
     });
     xhr.addEventListener('error', function () {
@@ -30,7 +30,7 @@
     xhr.addEventListener('timeout', function () {
       errorHandler('Превышен интервал ожидания ' + xhr.timeout / 1000 + ' с');
     });
-    xhr.timeout = 10000;
+    xhr.timeout = XHR_TIMEOUT;
     return xhr;
   };
 

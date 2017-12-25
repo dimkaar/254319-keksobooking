@@ -7,6 +7,15 @@
   var MINIMAL_PRICES = ['1000', '0', '5000', '10000'];
   var ROOMS_NUMBER = ['1', '2', '3', '100'];
   var CAPACITY_VALUES = ['1', '2', '3', '0'];
+  var TITLE_LENGTH = {
+    min: 30,
+    max: 100
+  };
+  var PRICE_VARIATIONS = {
+    min: 0,
+    max: 1000000,
+    value: 1000
+  };
   var adTitleInput = window.util.noticeForm.querySelector('#title');
   var adAddressInput = window.util.noticeForm.querySelector('#address');
   var adPriceInput = window.util.noticeForm.querySelector('#price');
@@ -149,15 +158,15 @@
 
   var updateDefaultInputs = function () {
     adTitleInput.required = true;
-    adTitleInput.minLength = 30;
-    adTitleInput.maxLength = 100;
-    adTitleInput.pattern = '.{30,100}';
+    adTitleInput.minLength = TITLE_LENGTH.min;
+    adTitleInput.maxLength = TITLE_LENGTH.max;
+    adTitleInput.pattern = '.{' + TITLE_LENGTH.min + ',' + TITLE_LENGTH.max + '}';
     adAddressInput.readOnly = true;
     adAddressInput.required = true;
     adPriceInput.required = true;
-    adPriceInput.min = 0;
-    adPriceInput.value = 1000;
-    adPriceInput.max = 1000000;
+    adPriceInput.min = PRICE_VARIATIONS.min;
+    adPriceInput.value = PRICE_VARIATIONS.value;
+    adPriceInput.max = PRICE_VARIATIONS.max;
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
