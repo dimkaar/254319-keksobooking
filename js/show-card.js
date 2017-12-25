@@ -3,43 +3,52 @@
 (function () {
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
-  var removePopup = function () {
-    document.removeEventListener('keydown', escKeyDownHandler);
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
-  };
+  // onClose добавляем функцию, которая будет вызвана при закрытии.
+  // onClose должна заменять вызовы window.pin.*
+  var showCard = function (data, onClose) {
+    var removePopup = function () {
+      // document.removeEventListener('keydown', escKeyDownHandler); // <-- может уже не существовать, чиним переносом
+      var popup = document.querySelector('.popup');
+      if (popup) {
+        document.removeEventListener('keydown', escKeyDownHandler); // починили,
+        popup.remove(); // посмотри потом, функция remove реализована не во всех браузерах
+      }
+    };
 
-  var escKeyDownHandler = function (evt) {
-    window.util.isEscEvent(evt, removePopup, window.pinModule.removeActivePin);
-  };
+    var popupCloseClickHandler = function () {
+      removePopup();
+      onClose(); // onClose
+    };
 
-  var popupCloseClickHandler = function () {
-    removePopup();
-    window.pinModule.removeActivePin();
-  };
+    var popupCloseKeyDownHandler = function (evt) {
+      window.util.isEnterEvent(evt, removePopup, onClose);
+    };
 
-  var showCard = function (data) {
-    removePopup();
+    var escKeyDownHandler = function (evt) {
+      window.util.isEscEvent(evt, removePopup, onClose);
+    };
+
+    removePopup(); // <-- здесь удаляем popup
     var insertBeforeBlock = document.querySelector('.map__filter-container');
-    if (!window.util.mapBlock.querySelector('.popup')) {
-      var card = renderAd(data);
-      window.util.mapBlock.insertBefore(card, insertBeforeBlock);
-    }
+    // if (!window.util.mapBlock.querySelector('.popup')) { // бесполезная проверка, так как у нас выше мы удаляем блок
+    // }
+
+    var card = renderAd(data);
+    var popupClose = card.querySelector('.popup__close');
+    popupClose.tabIndex = 0;
+    popupClose.addEventListener('click', popupCloseClickHandler);
+    popupClose.addEventListener('keydown', popupCloseKeyDownHandler);
+
+    window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     document.addEventListener('keydown', escKeyDownHandler);
   };
 
-  var popupCloseKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, removePopup, window.pinModule.removeActivePin);
-  };
 
   var renderAd = function (adData) {
     var instanceOfAd = article.cloneNode(true);
     var fragment = document.createDocumentFragment();
     var featuresElement = instanceOfAd.querySelector('.popup__features');
     var houseTypeHeader = instanceOfAd.querySelector('h4');
-    var popupClose = instanceOfAd.querySelector('.popup__close');
     instanceOfAd.querySelector('h3').textContent = adData.offer.title;
     instanceOfAd.querySelector('small').textContent = adData.offer.address;
     instanceOfAd.querySelectorAll('p')[1].innerHTML = adData.offer.price + '&#x20bd;/ночь';
@@ -64,14 +73,12 @@
     instanceOfAd.querySelectorAll('p')[4].textContent = adData.offer.description;
     featuresElement.appendChild(fragment);
     instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
-    popupClose.tabIndex = 0;
-    popupClose.addEventListener('click', popupCloseClickHandler);
-    popupClose.addEventListener('keydown', popupCloseKeyDownHandler);
+
     return instanceOfAd;
   };
 
   window.cardModule = {
-    removePopup: removePopup,
+    // removePopup: removePopup, // Это нам здесь не надо, мы удаляем эту связь
     showCard: showCard
   };
 })();

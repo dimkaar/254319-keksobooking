@@ -7,19 +7,15 @@
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
-  var secondaryPinClickHandler = function (evt, data, showCard) {
+  var activateSecondaryPin = function (evt, data) {
     removeActivePin();
     makePinActive(evt);
-    showCard(data);
+    window.cardModule.showCard(data, removeActivePin);
   };
 
   var makePinActive = function (evt) {
     var currentPin = evt.currentTarget;
     currentPin.classList.add('map__pin--active');
-  };
-
-  var mainPinKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, window.mapModule.activateMap, window.formModule.activateNoticeForm);
   };
 
   var removeActivePin = function () {
@@ -40,12 +36,10 @@
     instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     instanceButton.querySelector('img').src = elementData.author.avatar;
     instanceButton.addEventListener('click', function (evt) {
-      secondaryPinClickHandler(evt, elementData, window.cardModule.showCard);
+      activateSecondaryPin(evt, elementData);
     });
     return instanceButton;
   };
-
-  window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
 
   window.pinModule = {
     fragment: fragment,
