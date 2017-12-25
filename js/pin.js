@@ -44,6 +44,7 @@
 
   window.pinModule = {
     fragment: fragment,
-    renderPinsFragment: renderPinsFragment
+    renderPinsFragment: renderPinsFragment,
+    removeActivePin: removeActivePin
   };
 })();
