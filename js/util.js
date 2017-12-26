@@ -29,7 +29,7 @@
     errorHandler: function (message) {
       var div = document.createElement('div');
       div.classList.add('errorBlock');
-      div.innerHTML = message;
+      div.textContent = message;
       div.style.position = 'fixed';
       div.style.top = '10%';
       div.style.left = '50%';
@@ -57,7 +57,26 @@
       }
       lastTimeout = window.setTimeout(callback, timeout);
     },
+    getRandomArbitrary: function getRandomArbitrary(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    getRandomArray: function (array, length) {
+      var randomArray = [];
+      var currentElement;
+      length = Math.min(array.length, length);
+      while (randomArray.length < length) {
+        currentElement = array[this.getRandomArbitrary(0, array.length)];
+        if (randomArray.indexOf(currentElement) !== -1) {
+          continue;
+        } else {
+          randomArray.push(currentElement);
+        }
+      }
+      return randomArray;
+
+    },
     ads: [],
+    filteredAds: [],
     noticeForm: noticeForm,
     mapBlock: mapBlock,
     mainPin: mainPin

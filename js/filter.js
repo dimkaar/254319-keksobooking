@@ -66,10 +66,10 @@
   };
 
   filtersParentNode.addEventListener('change', function () {
-    window.util.debounce(window.mapModule.updatePins, FILTER_TIMEOUT);
+    window.util.debounce(window.map.update, FILTER_TIMEOUT);
   });
 
-  window.filterModule = {
+  window.filter = {
     filtrate: filtrate
   };
 })();

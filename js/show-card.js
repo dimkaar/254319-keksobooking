@@ -4,45 +4,30 @@
   var article = document.querySelector('template').content.querySelector('article.map__card');
 
   var removePopup = function () {
-    document.removeEventListener('keydown', escKeyDownHandler);
+    document.removeEventListener('keydown', documentKeyDownHandler);
     var popup = document.querySelector('.popup');
     if (popup) {
       popup.remove();
     }
   };
 
-  var escKeyDownHandler = function (evt) {
-    window.util.isEscEvent(evt, removePopup, window.pinModule.removeActivePin);
-  };
-
-  var popupCloseClickHandler = function () {
+  var showCard = function (ad) {
     removePopup();
-    window.pinModule.removeActivePin();
-  };
-
-  var showCard = function (data) {
     var insertBeforeBlock = document.querySelector('.map__filter-container');
-    if (!window.util.mapBlock.querySelector('.popup')) {
-      var card = renderAd(data);
-      window.util.mapBlock.insertBefore(card, insertBeforeBlock);
-    }
-    document.addEventListener('keydown', escKeyDownHandler);
+    var card = renderAd(ad);
+    window.util.mapBlock.insertBefore(card, insertBeforeBlock);
+    document.addEventListener('keydown', documentKeyDownHandler);
   };
 
-  var popupCloseKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, removePopup, window.pinModule.removeActivePin);
-  };
-
-  var renderAd = function (adData) {
+  var renderAd = function (ad) {
     var instanceOfAd = article.cloneNode(true);
-    var fragment = document.createDocumentFragment();
-    var featuresElement = instanceOfAd.querySelector('.popup__features');
+    var featuresList = instanceOfAd.querySelector('.popup__features');
     var houseTypeHeader = instanceOfAd.querySelector('h4');
     var popupClose = instanceOfAd.querySelector('.popup__close');
-    instanceOfAd.querySelector('h3').textContent = adData.offer.title;
-    instanceOfAd.querySelector('small').textContent = adData.offer.address;
-    instanceOfAd.querySelectorAll('p')[1].innerHTML = adData.offer.price + '&#x20bd;/ночь';
-    switch (adData.offer.type) {
+    instanceOfAd.querySelector('h3').textContent = ad.offer.title;
+    instanceOfAd.querySelector('small').textContent = ad.offer.address;
+    instanceOfAd.querySelector('.popup__price').textContent = ad.offer.price + '\u20BD/ночь';
+    switch (ad.offer.type) {
       case 'flat': houseTypeHeader.textContent = 'Квартира';
         break;
       case 'house': houseTypeHeader.textContent = 'Дом';
@@ -52,25 +37,32 @@
       default: houseTypeHeader.textContent = 'Не указано';
         break;
     }
-    instanceOfAd.querySelectorAll('p')[2].innerHTML = adData.offer.rooms + ' для ' + adData.offer.guests + ' гостей';
-    instanceOfAd.querySelectorAll('p')[3].textContent = 'Заезд после: ' + adData.offer.checkin + ', выезд до ' + adData.offer.checkout;
-    window.util.removeChilds(featuresElement);
-    for (var i = 0; i < adData.offer.features.length; i++) {
+    instanceOfAd.querySelector('p:nth-of-type(3)').innerHTML = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
+    instanceOfAd.querySelectorAll('p:nth-of-type(4)').textContent = 'Заезд после: ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
+    window.util.removeChilds(featuresList);
+    for (var i = 0; i < ad.offer.features.length; i++) {
       var newLi = document.createElement('li');
-      newLi.classList = 'feature feature--' + adData.offer.features[i];
-      fragment.appendChild(newLi);
+      newLi.classList = 'feature feature--' + ad.offer.features[i];
+      featuresList.appendChild(newLi);
     }
-    instanceOfAd.querySelectorAll('p')[4].textContent = adData.offer.description;
-    featuresElement.appendChild(fragment);
-    instanceOfAd.querySelector('.popup__avatar').src = adData.author.avatar;
+    instanceOfAd.querySelectorAll('p:nth-of-type(5)').textContent = ad.offer.description;
+    instanceOfAd.querySelector('.popup__avatar').src = ad.author.avatar;
     popupClose.tabIndex = 0;
     popupClose.addEventListener('click', popupCloseClickHandler);
-    popupClose.addEventListener('keydown', popupCloseKeyDownHandler);
     return instanceOfAd;
   };
 
-  window.cardModule = {
-    removePopup: removePopup,
-    showCard: showCard
+  var documentKeyDownHandler = function (evt) {
+    window.util.isEscEvent(evt, removePopup, window.pin.remove);
+  };
+
+  var popupCloseClickHandler = function () {
+    removePopup();
+    window.pin.remove();
+  };
+
+  window.card = {
+    remove: removePopup,
+    show: showCard
   };
 })();

@@ -1,21 +1,20 @@
 'use strict';
 
 (function () {
+  var mapPins = window.util.mapBlock.querySelector('.map__pins');
   var MAIN_PIN_HEIGHT = 64;
   var MAIN_PIN_SPADE = 16;
   var MIN_Y = 100 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MAX_Y = 500 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
-  var mapPins = window.util.mapBlock.querySelector('.map__pins');
-  var mapPinsStyle = getComputedStyle(mapPins);
-  var minX = mapPins.offsetTop;
-  var maxX = parseInt(mapPinsStyle.width.replace('px', ''), 10);
+  var MIN_X = mapPins.offsetTop;
+  var MAX_X = parseInt(getComputedStyle(mapPins).width.replace('px', ''), 10);
   var appActivated = false;
 
   var init = function () {
-    window.formModule.fieldsetsUpdate(true);
+    window.form.update(true);
     window.util.mapBlock.classList.add('map--faded');
     window.util.noticeForm.classList.add('notice__form--disabled');
-    window.formModule.substituteInputValue(window.util.noticeForm.querySelector('#address'), ('x: ' + window.util.mainPin.offsetLeft + ', y: ' + (window.util.mainPin.offsetTop + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
+    window.form.fillInput(window.util.noticeForm.querySelector('#address'), ('x: ' + window.util.mainPin.offsetLeft + ', y: ' + (window.util.mainPin.offsetTop + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
   };
 
   var appendFragment = function (fragment) {
@@ -24,8 +23,8 @@
 
   var activateMap = function () {
     window.util.mapBlock.classList.remove('map--faded');
-    appendFragment(window.pinModule.fragment);
-    window.formModule.activateNoticeForm();
+    appendFragment(window.pin.fragment);
+    window.form.activate();
     return true;
   };
 
@@ -36,14 +35,13 @@
         mapPins.removeChild(pin);
       });
     }
-    window.cardModule.removePopup();
-    var filteredAds = window.filterModule.filtrate(window.util.ads);
-    window.pinModule.renderPinsFragment(filteredAds);
-    appendFragment(window.pinModule.fragment);
+    window.card.remove();
+    window.util.filteredAds = window.filter.filtrate(window.util.ads);
+    window.pin.render(window.util.filteredAds);
+    appendFragment(window.pin.fragment);
   };
 
   var mainPinMouseDownHandler = function (evt) {
-    var currentPinCoords = {};
     var startDragCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -60,15 +58,13 @@
         y: moveEvt.clientY
       };
 
-      if (window.util.mainPin.offsetTop - shift.y >= MIN_Y && window.util.mainPin.offsetTop - shift.y <= MAX_Y) {
-        currentPinCoords.locationY = window.util.mainPin.offsetTop - shift.y;
-        window.util.mainPin.style.top = currentPinCoords.locationY + 'px';
-      }
-      if (window.util.mainPin.offsetLeft - shift.x >= minX && window.util.mainPin.offsetLeft - shift.x <= maxX) {
-        currentPinCoords.locationX = window.util.mainPin.offsetLeft - shift.x;
-        window.util.mainPin.style.left = currentPinCoords.locationX + 'px';
-      }
-      window.formModule.substituteInputValue(window.util.noticeForm.querySelector('#address'), ('x: ' + currentPinCoords.locationX + ', y: ' + (currentPinCoords.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
+      var currentPinCoords = {
+        locationX: Math.min(Math.max(window.util.mainPin.offsetLeft - shift.x, MIN_X), MAX_X),
+        locationY: Math.min(Math.max(window.util.mainPin.offsetTop - shift.y, MIN_Y), MAX_Y)
+      };
+      window.util.mainPin.style.top = currentPinCoords.locationY + 'px';
+      window.util.mainPin.style.left = currentPinCoords.locationX + 'px';
+      window.form.fillInput(window.util.noticeForm.querySelector('#address'), ('x: ' + currentPinCoords.locationX + ', y: ' + (currentPinCoords.locationY + MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE)));
     };
 
     var mainPinMouseUpHandler = function (mouseUpEvt) {
@@ -82,24 +78,24 @@
 
     document.addEventListener('mousemove', mainPinMouseMoveHandler);
     document.addEventListener('mouseup', mainPinMouseUpHandler);
-    window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
     window.util.mainPin.addEventListener('mouseup', mainPinMouseUpHandler);
   };
 
   var successHandler = function (data) {
     window.util.ads = data;
-    window.pinModule.renderPinsFragment(window.util.ads);
+    window.pin.render(window.util.ads);
   };
 
   var mainPinKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, activateMap, window.formModule.activateNoticeForm);
+    window.util.isEnterEvent(evt, activateMap, window.form.activate);
   };
 
   window.backend.load(successHandler, window.util.errorHandler);
+  window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
   window.util.mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
 
   window.onload = init;
-  window.mapModule = {
-    updatePins: updatePins
+  window.map = {
+    update: updatePins
   };
 })();

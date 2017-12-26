@@ -95,7 +95,8 @@
     }
   };
 
-  var resetFields = function () {
+  var resetFields = function (evt) {
+    evt.preventDefault();
     adTitleInput.value = '';
     adTypeSelect.querySelectorAll('option')[0].selected = true;
     adTimeinSelect.querySelectorAll('option')[0].selected = true;
@@ -104,7 +105,7 @@
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
-    adPriceInput.value = adPriceInput.min;
+    adPriceInput.value = PRICE_VARIATIONS.value;
     adDescription.value = '';
     options.forEach(function (option) {
       option.checked = false;
@@ -171,7 +172,6 @@
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
     disableOptions();
-    substituteInputValue(adAddressInput, window.mapModule.location);
     adTimeinSelect.addEventListener('change', timeinChangeHandler);
     adTimeoutSelect.addEventListener('change', timeoutChangeHandler);
     adTypeSelect.addEventListener('change', typeChangeHandler);
@@ -223,8 +223,8 @@
     window.util.isEnterEvent(evt, resetFields);
   };
 
-  var resetClickHandler = function () {
-    resetFields();
+  var resetClickHandler = function (evt) {
+    resetFields(evt);
   };
 
   var submitHandler = function (evt) {
@@ -242,9 +242,9 @@
     resetFields();
   };
 
-  window.formModule = {
-    activateNoticeForm: activateNoticeForm,
-    substituteInputValue: substituteInputValue,
-    fieldsetsUpdate: fieldsetsUpdate
+  window.form = {
+    activate: activateNoticeForm,
+    fillInput: substituteInputValue,
+    update: fieldsetsUpdate
   };
 })();
