@@ -26,6 +26,12 @@
   var adCapacity = window.util.noticeForm.querySelector('#capacity');
   var adDescription = window.util.noticeForm.querySelector('#description');
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
+  var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
+  var features = window.util.noticeForm.querySelector('.features').querySelectorAll('input[type=checkbox]');
+  var adCapacityOptins = adCapacity.querySelectorAll('option');
+  var adTimeinSelectOptions = adTimeinSelect.querySelectorAll('option');
+  var adTypeSelectOptions = adTypeSelect.querySelectorAll('option');
+  var adRoomNumberOptions = adRoomNumber.querySelectorAll('option');
 
   var activateNoticeForm = function () {
     fieldsetsUpdate(false);
@@ -103,16 +109,15 @@
 
   var resetFields = function () {
     adTitleInput.value = '';
-    adTypeSelect.querySelectorAll('option')[0].selected = true;
-    adTimeinSelect.querySelectorAll('option')[0].selected = true;
-    adRoomNumber.querySelectorAll('option')[0].selected = true;
-    var options = window.util.noticeForm.querySelector('.features').querySelectorAll('input[type=checkbox]');
+    adTypeSelectOptions[0].selected = true;
+    adTimeinSelectOptions[0].selected = true;
+    adRoomNumberOptions[0].selected = true;
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
     adPriceInput.value = PRICE_VARIATIONS.value;
     adDescription.value = '';
-    options.forEach(function (option) {
+    features.forEach(function (option) {
       option.checked = false;
     });
     disableOptions();
@@ -134,28 +139,26 @@
   };
 
   var disableOptions = function () {
-    var options = adCapacity.querySelectorAll('option');
     var currentValue = adCapacity.value;
-    for (var i = 0; i < options.length; i++) {
-      options[i].disabled = true;
+    for (var i = 0; i < adCapacityOptins.length; i++) {
+      adCapacityOptins[i].disabled = true;
     }
     switch (currentValue) {
-      case '0': options[3].disabled = false;
+      case '0': adCapacityOptins[3].disabled = false;
         break;
-      case '1': options[2].disabled = false;
+      case '1': adCapacityOptins[2].disabled = false;
         break;
-      case '2': options[1].disabled = false;
-        options[2].disabled = false;
+      case '2': adCapacityOptins[1].disabled = false;
+        adCapacityOptins[2].disabled = false;
         break;
-      case '3': options[0].disabled = false;
-        options[1].disabled = false;
-        options[2].disabled = false;
+      case '3': adCapacityOptins[0].disabled = false;
+        adCapacityOptins[1].disabled = false;
+        adCapacityOptins[2].disabled = false;
         break;
     }
   };
 
   var fieldsetsUpdate = function (toggler) {
-    var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
     window.util.noticeForm.classList.remove('notice__form--disabled');
     noticeFormFieldsets.forEach(function (fieldset) {
       fieldset.disabled = toggler;
@@ -186,11 +189,14 @@
   var focusField = function (evt) {
     var targetField = evt.target;
     switch (targetField) {
-      case adTitleInput: adTitleInput.focus();
+      case adTitleInput:
+        adTitleInput.focus();
         break;
-      case adAddressInput: adAddressInput.focus();
+      case adAddressInput:
+        adAddressInput.focus();
         break;
-      case adPriceInput: adPriceInput.focus();
+      case adPriceInput:
+        adPriceInput.focus();
         break;
     }
   };
