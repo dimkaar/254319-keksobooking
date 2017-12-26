@@ -62,18 +62,16 @@
     },
     getRandomArray: function (array, length) {
       var randomArray = [];
-      var currentElement;
-      length = Math.min(array.length, length);
-      while (randomArray.length < length) {
+      var currentElement = '';
+      while (randomArray.length < Math.min(array.length, length)) {
         currentElement = array[this.getRandomArbitrary(0, array.length)];
-        if (randomArray.indexOf(currentElement) !== -1) {
-          continue;
-        } else {
+        if (randomArray.indexOf(currentElement) === -1) {
           randomArray.push(currentElement);
+        } else {
+          continue;
         }
       }
       return randomArray;
-
     },
     ads: [],
     filteredAds: [],
