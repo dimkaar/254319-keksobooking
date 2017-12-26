@@ -10,10 +10,14 @@
 
   var returnByPriceRange = function (adPrice, value) {
     switch (value) {
-      case 'any': return true;
-      case 'low': return adPrice < MIN_PRICE;
-      case 'middle': return adPrice >= MIN_PRICE && adPrice <= MAX_PRICE;
-      case 'high': return adPrice >= MAX_PRICE;
+      case 'any':
+        return true;
+      case 'low':
+        return adPrice < MIN_PRICE;
+      case 'middle':
+        return adPrice >= MIN_PRICE && adPrice <= MAX_PRICE;
+      case 'high':
+        return adPrice >= MAX_PRICE;
     }
     return false;
   };
