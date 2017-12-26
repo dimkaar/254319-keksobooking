@@ -2,6 +2,7 @@
 
 (function () {
   var article = document.querySelector('template').content.querySelector('article.map__card');
+  var insertBeforeBlock = window.util.mapBlock.querySelector('.map__filter-container');
 
   var removePopup = function () {
     document.removeEventListener('keydown', documentKeyDownHandler);
@@ -13,7 +14,6 @@
 
   var showCard = function (ad) {
     removePopup();
-    var insertBeforeBlock = document.querySelector('.map__filter-container');
     var card = renderAd(ad);
     window.util.mapBlock.insertBefore(card, insertBeforeBlock);
     document.addEventListener('keydown', documentKeyDownHandler);
