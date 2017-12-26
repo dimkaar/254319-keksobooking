@@ -6,7 +6,7 @@
   var MAIN_PIN_SPADE = 16;
   var MIN_Y = 100 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
   var MAX_Y = 500 - (MAIN_PIN_HEIGHT / 2 + MAIN_PIN_SPADE);
-  var MIN_X = mapPins.offsetTop;
+  var MIN_X = mapPins.offsetLeft;
   var MAX_X = parseInt(getComputedStyle(mapPins).width.replace('px', ''), 10);
   var appActivated = false;
 
