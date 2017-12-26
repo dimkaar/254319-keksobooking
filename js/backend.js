@@ -3,25 +3,23 @@
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking';
   var XHR_TIMEOUT = 10000;
-  var HTTP_STATUS_CODES = {
-    200: [true],
-    400: [false, 'Неверный запрос'],
-    401: [false, 'Необходима авторизация'],
-    403: [false, 'Доступ запрещен'],
-    404: [false, 'Запрашиваемые данные не найдены'],
-    500: [false, 'Внутренняя ошибка сервера']
+  var HTTP_SUCCESS_CODE = 200;
+  var HTTP_ERROR_CODES = {
+    400: 'Неверный запрос',
+    401: 'Необходима авторизация',
+    403: 'Доступ запрещен',
+    404: 'Запрашиваемые данные не найдены',
+    500: 'Внутренняя ошибка сервера'
   };
 
   var xhrSetup = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (HTTP_STATUS_CODES[xhr.status] && HTTP_STATUS_CODES[xhr.status][0]) {
+      if (xhr.status === HTTP_SUCCESS_CODE) {
         successHandler(xhr.response);
-      } else if (!HTTP_STATUS_CODES[xhr.status]) {
-        errorHandler('(HTTP status code: ' + xhr.status + ')');
       } else {
-        errorHandler(HTTP_STATUS_CODES[xhr.status][1]);
+        errorHandler(HTTP_ERROR_CODES[xhr.status] || 'Статус ' + xhr.status + ': ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
