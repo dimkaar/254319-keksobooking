@@ -3,6 +3,7 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var ERROR_TIME = 5000;
   var mapBlock = document.querySelector('.map');
   var noticeForm = document.querySelector('.notice__form');
   var mainPin = mapBlock.querySelector('.map__pin--main');
@@ -54,6 +55,9 @@
       div.style.borderRadius = '5px';
       div.style.boxShadow = '0 0 10px 10px rgba(255, 86, 53, .7)';
       mapBlock.appendChild(div);
+      window.setTimeout(function () {
+        mapBlock.removeChild(div);
+      }, ERROR_TIME);
     },
     debounce: function (callback, timeout) {
       if (lastTimeout) {
