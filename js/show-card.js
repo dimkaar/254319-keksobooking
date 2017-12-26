@@ -55,7 +55,7 @@
       default: houseTypeHeader.textContent = 'Не указано';
         break;
     }
-    instanceOfAd.querySelector('p:nth-of-type(3)').innerHTML = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
+    instanceOfAd.querySelector('p:nth-of-type(3)').textContent = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
     instanceOfAd.querySelector('p:nth-of-type(4)').textContent = 'Заезд после: ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     window.util.removeChilds(featuresList);
     renderElements(ad.offer.features, featuresList, 'feature feature--');
