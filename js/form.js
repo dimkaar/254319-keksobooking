@@ -219,6 +219,7 @@
   };
 
   var resetKeyDownHandler = function (evt) {
+    evt.preventDefault();
     window.util.isEnterEvent(evt, resetFields);
   };
 
