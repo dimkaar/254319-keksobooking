@@ -12,13 +12,17 @@
     isEscEvent: function (evt, action, nextAction) {
       if (evt.keyCode === ESC_KEYCODE) {
         action();
-        nextAction();
+        if (nextAction) {
+          nextAction();
+        }
       }
     },
     isEnterEvent: function (evt, action, nextAction) {
       if (evt.keyCode === ENTER_KEYCODE) {
         action();
-        nextAction();
+        if (nextAction) {
+          nextAction();
+        }
       }
     },
     removeChilds: function (element) {
@@ -72,6 +76,7 @@
         }
       }
       return randomArray;
+
     },
     ads: [],
     filteredAds: [],

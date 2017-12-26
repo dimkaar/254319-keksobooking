@@ -95,8 +95,7 @@
     }
   };
 
-  var resetFields = function (evt) {
-    evt.preventDefault();
+  var resetFields = function () {
     adTitleInput.value = '';
     adTypeSelect.querySelectorAll('option')[0].selected = true;
     adTimeinSelect.querySelectorAll('option')[0].selected = true;
@@ -224,7 +223,8 @@
   };
 
   var resetClickHandler = function (evt) {
-    resetFields(evt);
+    evt.preventDefault();
+    resetFields();
   };
 
   var submitHandler = function (evt) {
