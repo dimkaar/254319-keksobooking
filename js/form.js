@@ -86,6 +86,12 @@
       adPriceInput.addEventListener('change', priceChangeHandler);
       adPriceInput.addEventListener('blur', priceBlurHandler);
       return false;
+    } else if (adPriceInput.validity.valueMissing) {
+      adPriceInput.setAttribute('style', 'border: 1px solid #ff0000');
+      adPriceInput.setCustomValidity('Введите цену');
+      adPriceInput.addEventListener('change', priceChangeHandler);
+      adPriceInput.addEventListener('blur', priceBlurHandler);
+      return false;
     } else {
       adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
       adPriceInput.setCustomValidity('');
@@ -211,6 +217,7 @@
 
   var typeChangeHandler = function () {
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
+    checkPriceValidity();
   };
 
   var roomNumberChangeHandler = function () {
