@@ -19,9 +19,27 @@
     document.addEventListener('keydown', documentKeyDownHandler);
   };
 
+  var renderElements = function (array, parentNode, classes) {
+    for (var i = 0; i < array.length; i++) {
+      var newLi = document.createElement('li');
+      if (classes) {
+        newLi.classList = classes + array[i];
+      } else {
+        var picture = document.createElement('img');
+        picture.src = array[i];
+        picture.width = '65';
+        picture.height = '45';
+        picture.style.marginRight = '5px';
+        newLi.appendChild(picture);
+      }
+      parentNode.appendChild(newLi);
+    }
+  };
+
   var renderAd = function (ad) {
     var instanceOfAd = article.cloneNode(true);
     var featuresList = instanceOfAd.querySelector('.popup__features');
+    var picturesList = instanceOfAd.querySelector('.popup__pictures');
     var houseTypeHeader = instanceOfAd.querySelector('h4');
     var popupClose = instanceOfAd.querySelector('.popup__close');
     instanceOfAd.querySelector('h3').textContent = ad.offer.title;
@@ -40,13 +58,11 @@
     instanceOfAd.querySelector('p:nth-of-type(3)').innerHTML = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
     instanceOfAd.querySelector('p:nth-of-type(4)').textContent = 'Заезд после: ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     window.util.removeChilds(featuresList);
-    for (var i = 0; i < ad.offer.features.length; i++) {
-      var newLi = document.createElement('li');
-      newLi.classList = 'feature feature--' + ad.offer.features[i];
-      featuresList.appendChild(newLi);
-    }
+    renderElements(ad.offer.features, featuresList, 'feature feature--');
     instanceOfAd.querySelector('p:nth-of-type(5)').textContent = ad.offer.description;
     instanceOfAd.querySelector('.popup__avatar').src = ad.author.avatar;
+    window.util.removeChilds(picturesList);
+    renderElements(ad.offer.photos, picturesList);
     popupClose.tabIndex = 0;
     popupClose.addEventListener('click', popupCloseClickHandler);
     return instanceOfAd;
