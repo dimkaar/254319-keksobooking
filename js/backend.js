@@ -2,46 +2,44 @@
 
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking';
+  var XHR_TIMEOUT = 10000;
+  var HTTP_SUCCESS_CODE = 200;
+  var HTTP_ERROR_CODES = {
+    400: 'Неверный запрос',
+    401: 'Необходима авторизация',
+    403: 'Доступ запрещен',
+    404: 'Запрашиваемые данные не найдены',
+    500: 'Внутренняя ошибка сервера'
+  };
 
-  var xhrSetup = function (onLoad, onError) {
+  var xhrSetup = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      var error = '';
-      switch (xhr.status) {
-        case 200: onLoad(xhr.response);
-          break;
-        case 400: error = 'Неверный запрос';
-          break;
-        case 404: error = 'Информация не найдена';
-          break;
-        case 500: error = 'Ошибка сервера';
-          break;
-        default: error = 'Неизвестный статус запроса: ' + xhr.status + ', содержимое: ' + xhr.statusText;
-          break;
-      }
-      if (error) {
-        onError(error);
+      if (xhr.status === HTTP_SUCCESS_CODE) {
+        successHandler(xhr.response);
+      } else {
+        errorHandler(HTTP_ERROR_CODES[xhr.status] || 'Статус ' + xhr.status + ': ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
+      errorHandler('Ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Превышен интервал ожидания ' + xhr.timeout / 1000 + ' с');
+      errorHandler('Превышен интервал ожидания ' + xhr.timeout / 1000 + ' с');
     });
-    xhr.timeout = 10000;
+    xhr.timeout = XHR_TIMEOUT;
     return xhr;
   };
 
-  var load = function (onLoad, onError) {
-    var xhr = xhrSetup(onLoad, onError);
+  var load = function (successHandler, errorHandler) {
+    var xhr = xhrSetup(successHandler, errorHandler);
     xhr.open('GET', URL + '/data');
     xhr.send();
   };
 
-  var save = function (data, onLoad, onError) {
-    var xhr = xhrSetup(onLoad, onError);
+  var save = function (data, successHandler, errorHandler) {
+    var xhr = xhrSetup(successHandler, errorHandler);
     xhr.open('POST', URL);
     xhr.send(data);
   };

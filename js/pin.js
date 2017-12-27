@@ -3,26 +3,9 @@
 (function () {
   var WHITE_SPADE_HEIGHT = 18;
   var BUBBLE_HEIGHT = 44;
-  var START_POSITION = 1;
   var PIN_NUMBER_TO_RENDER = 5;
   var fragment = document.createDocumentFragment();
   var buttonTemplate = document.querySelector('template').content.querySelector('.map__pin');
-
-  var secondaryPinClickHandler = function (evt, data) {
-    window.cardModule.removePopup();
-    removeActivePin();
-    makePinActive(evt);
-    window.cardModule.showCard(data);
-  };
-
-  var makePinActive = function (evt) {
-    var currentPin = evt.currentTarget;
-    currentPin.classList.add('map__pin--active');
-  };
-
-  var mainPinKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, window.mapModule.activateMap, window.formModule.activateNoticeForm);
-  };
 
   var removeActivePin = function () {
     var activePin = window.util.mapBlock.querySelector('.map__pin--active');
@@ -32,29 +15,30 @@
   };
 
   var renderPinsFragment = function (pins) {
-    for (var i = 0; i < pins.length; i++) {
-      fragment.appendChild(renderButton(pins[i]));
-      if (i + START_POSITION >= PIN_NUMBER_TO_RENDER) {
-        break;
-      }
+    var randomAds = window.util.getRandomArray(pins, PIN_NUMBER_TO_RENDER);
+    for (var i = 0; i < randomAds.length; i++) {
+      fragment.appendChild(renderButton(randomAds[i]));
     }
   };
 
-  var renderButton = function (elementData) {
-    var instanceButton = buttonTemplate.cloneNode(true);
-    instanceButton.setAttribute('style', 'left: ' + elementData.location.x + 'px; top: ' + (elementData.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
-    instanceButton.querySelector('img').src = elementData.author.avatar;
-    instanceButton.addEventListener('click', function (evt) {
-      secondaryPinClickHandler(evt, elementData);
-    });
-    return instanceButton;
+  var renderButton = function (ad) {
+    var pin = buttonTemplate.cloneNode(true);
+    pin.setAttribute('style', 'left: ' + ad.location.x + 'px; top: ' + (ad.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
+    pin.querySelector('img').src = ad.author.avatar;
+
+    var secondaryPinClickHandler = function (evt) {
+      removeActivePin();
+      evt.currentTarget.classList.add('map__pin--active');
+      window.card.show(ad);
+    };
+
+    pin.addEventListener('click', secondaryPinClickHandler);
+    return pin;
   };
 
-  window.util.mainPin.addEventListener('keydown', mainPinKeyDownHandler);
-
-  window.pinModule = {
+  window.pin = {
     fragment: fragment,
-    removeActivePin: removeActivePin,
-    renderPinsFragment: renderPinsFragment
+    render: renderPinsFragment,
+    remove: removeActivePin
   };
 })();

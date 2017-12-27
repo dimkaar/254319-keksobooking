@@ -10,10 +10,14 @@
 
   var returnByPriceRange = function (adPrice, value) {
     switch (value) {
-      case 'any': return true;
-      case 'low': return adPrice < MIN_PRICE;
-      case 'middle': return adPrice >= MIN_PRICE && adPrice <= MAX_PRICE;
-      case 'high': return adPrice >= MAX_PRICE;
+      case 'any':
+        return true;
+      case 'low':
+        return adPrice < MIN_PRICE;
+      case 'middle':
+        return adPrice >= MIN_PRICE && adPrice < MAX_PRICE;
+      case 'high':
+        return adPrice >= MAX_PRICE;
     }
     return false;
   };
@@ -42,18 +46,18 @@
     });
   };
 
-  var filtrate = function (ads) {
+  var filtrateAds = function (ads) {
     filteredAds = ads.slice(0);
     var features = filtersParentNode.querySelectorAll('input[name="features"]:checked');
 
     filters.forEach(function (currentFilter) {
       if (currentFilter.value !== 'any') {
         var filterType = currentFilter.name.split('-').splice(1, 1).toString();
-        if (filterType !== 'price' && filterType !== 'guests' || isNaN(parseInt(currentFilter.value, 10))) {
+        if (filterType !== 'price' && (filterType !== 'guests' || isNaN(parseInt(currentFilter.value, 10)))) {
           filteredAds = filterByValue(filteredAds, filterType, currentFilter.value);
         } else if (filterType === 'guests' && !isNaN(parseInt(currentFilter.value, 10))) {
           filteredAds = filterByNumberValue(filteredAds, filterType, parseInt(currentFilter.value, 10));
-        } else {
+        } else if (filterType === 'price') {
           filteredAds = filterByPrice(filteredAds, currentFilter.value);
         }
       }
@@ -66,10 +70,10 @@
   };
 
   filtersParentNode.addEventListener('change', function () {
-    window.util.debounce(window.mapModule.updatePins, FILTER_TIMEOUT);
+    window.util.debounce(window.map.update, FILTER_TIMEOUT);
   });
 
-  window.filterModule = {
-    filtrate: filtrate
+  window.filter = {
+    filtrate: filtrateAds
   };
 })();
