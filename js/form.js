@@ -28,7 +28,7 @@
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
   var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
   var features = window.util.noticeForm.querySelector('.features').querySelectorAll('input[type=checkbox]');
-  var adCapacityOptins = adCapacity.querySelectorAll('option');
+  var adCapacityOptions = adCapacity.querySelectorAll('option');
   var adTimeinSelectOptions = adTimeinSelect.querySelectorAll('option');
   var adTypeSelectOptions = adTypeSelect.querySelectorAll('option');
   var adRoomNumberOptions = adRoomNumber.querySelectorAll('option');
@@ -140,20 +140,20 @@
 
   var disableOptions = function () {
     var currentValue = adCapacity.value;
-    for (var i = 0; i < adCapacityOptins.length; i++) {
-      adCapacityOptins[i].disabled = true;
+    for (var i = 0; i < adCapacityOptions.length; i++) {
+      adCapacityOptions[i].disabled = true;
     }
     switch (currentValue) {
-      case '0': adCapacityOptins[3].disabled = false;
+      case '0': adCapacityOptions[3].disabled = false;
         break;
-      case '1': adCapacityOptins[2].disabled = false;
+      case '1': adCapacityOptions[2].disabled = false;
         break;
-      case '2': adCapacityOptins[1].disabled = false;
-        adCapacityOptins[2].disabled = false;
+      case '2': adCapacityOptions[1].disabled = false;
+        adCapacityOptions[2].disabled = false;
         break;
-      case '3': adCapacityOptins[0].disabled = false;
-        adCapacityOptins[1].disabled = false;
-        adCapacityOptins[2].disabled = false;
+      case '3': adCapacityOptions[0].disabled = false;
+        adCapacityOptions[1].disabled = false;
+        adCapacityOptions[2].disabled = false;
         break;
     }
   };
