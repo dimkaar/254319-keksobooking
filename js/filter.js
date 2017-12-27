@@ -15,7 +15,7 @@
       case 'low':
         return adPrice < MIN_PRICE;
       case 'middle':
-        return adPrice >= MIN_PRICE && adPrice <= MAX_PRICE;
+        return adPrice >= MIN_PRICE && adPrice < MAX_PRICE;
       case 'high':
         return adPrice >= MAX_PRICE;
     }
