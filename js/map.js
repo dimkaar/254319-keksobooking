@@ -87,7 +87,7 @@
   };
 
   var mainPinKeyDownHandler = function (evt) {
-    window.util.isEnterEvent(evt, activateMap, window.form.activate);
+    window.util.isEnterEvent(evt, activateMap);
   };
 
   window.backend.load(successHandler, window.util.errorHandler);
