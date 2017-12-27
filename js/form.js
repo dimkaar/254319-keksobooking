@@ -8,13 +8,13 @@
   var ROOMS_NUMBER = ['1', '2', '3', '100'];
   var CAPACITY_VALUES = ['1', '2', '3', '0'];
   var TITLE_LENGTH = {
-    min: 30,
-    max: 100
+    MIN: 30,
+    MAX: 100
   };
   var PRICE_VARIATIONS = {
-    min: 0,
-    max: 1000000,
-    value: 1000
+    MIN: 0,
+    MAX: 1000000,
+    VALUE: 1000
   };
   var adTitleInput = window.util.noticeForm.querySelector('#title');
   var adAddressInput = window.util.noticeForm.querySelector('#address');
@@ -115,7 +115,7 @@
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
-    adPriceInput.value = PRICE_VARIATIONS.value;
+    adPriceInput.value = PRICE_VARIATIONS.VALUE;
     adDescription.value = '';
     features.forEach(function (option) {
       option.checked = false;
@@ -167,15 +167,15 @@
 
   var updateDefaultInputs = function () {
     adTitleInput.required = true;
-    adTitleInput.minLength = TITLE_LENGTH.min;
-    adTitleInput.maxLength = TITLE_LENGTH.max;
-    adTitleInput.pattern = '.{' + TITLE_LENGTH.min + ',' + TITLE_LENGTH.max + '}';
+    adTitleInput.minLength = TITLE_LENGTH.MIN;
+    adTitleInput.maxLength = TITLE_LENGTH.MAX;
+    adTitleInput.pattern = '.{' + TITLE_LENGTH.MIN + ',' + TITLE_LENGTH.MAX + '}';
     adAddressInput.readOnly = true;
     adAddressInput.required = true;
     adPriceInput.required = true;
-    adPriceInput.min = PRICE_VARIATIONS.min;
-    adPriceInput.value = PRICE_VARIATIONS.value;
-    adPriceInput.max = PRICE_VARIATIONS.max;
+    adPriceInput.min = PRICE_VARIATIONS.MIN;
+    adPriceInput.value = PRICE_VARIATIONS.VALUE;
+    adPriceInput.max = PRICE_VARIATIONS.MAX;
     window.synchronizeFields(adTimeinSelect, adTimeoutSelect, TIMES_IN, TIMES_OUT, syncValues);
     window.synchronizeFields(adTypeSelect, adPriceInput, BUILDING_TYPES, MINIMAL_PRICES, syncValueWithMin);
     window.synchronizeFields(adRoomNumber, adCapacity, ROOMS_NUMBER, CAPACITY_VALUES, syncValues);
