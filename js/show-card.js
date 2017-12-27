@@ -19,7 +19,7 @@
     document.addEventListener('keydown', documentKeyDownHandler);
   };
 
-  var renderElements = function (array, parentNode, classes) {
+  var renderPopupElements = function (array, parentNode, classes) {
     for (var i = 0; i < array.length; i++) {
       var newLi = document.createElement('li');
       if (classes) {
@@ -58,11 +58,11 @@
     instanceOfAd.querySelector('p:nth-of-type(3)').textContent = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
     instanceOfAd.querySelector('p:nth-of-type(4)').textContent = 'Заезд после: ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     window.util.removeChilds(featuresList);
-    renderElements(ad.offer.features, featuresList, 'feature feature--');
+    renderPopupElements(ad.offer.features, featuresList, 'feature feature--');
     instanceOfAd.querySelector('p:nth-of-type(5)').textContent = ad.offer.description;
     instanceOfAd.querySelector('.popup__avatar').src = ad.author.avatar;
     window.util.removeChilds(picturesList);
-    renderElements(ad.offer.photos, picturesList);
+    renderPopupElements(ad.offer.photos, picturesList);
     popupClose.tabIndex = 0;
     popupClose.addEventListener('click', popupCloseClickHandler);
     return instanceOfAd;

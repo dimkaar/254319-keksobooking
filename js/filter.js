@@ -46,7 +46,7 @@
     });
   };
 
-  var filtrate = function (ads) {
+  var filtrateAds = function (ads) {
     filteredAds = ads.slice(0);
     var features = filtersParentNode.querySelectorAll('input[name="features"]:checked');
 
@@ -74,6 +74,6 @@
   });
 
   window.filter = {
-    filtrate: filtrate
+    filtrate: filtrateAds
   };
 })();
