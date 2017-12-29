@@ -15,9 +15,8 @@
   };
 
   var renderPinsFragment = function (pins) {
-    var randomAds = window.util.getRandomArray(pins, PIN_NUMBER_TO_RENDER);
-    for (var i = 0; i < randomAds.length; i++) {
-      fragment.appendChild(renderButton(randomAds[i]));
+    for (var i = 0; i < Math.min(pins.length, PIN_NUMBER_TO_RENDER); i++) {
+      fragment.appendChild(renderButton(pins[i]));
     }
   };
 

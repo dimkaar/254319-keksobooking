@@ -69,33 +69,13 @@
     lastTimeout = window.setTimeout(callback, timeout);
   };
 
-  var getRandomArbitrary = function (min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
-
-  var getRandomArray = function (array, length) {
-    var randomArray = [];
-    var currentElement = '';
-    while (randomArray.length < Math.min(array.length, length)) {
-      currentElement = array[getRandomArbitrary(0, array.length)];
-      if (randomArray.indexOf(currentElement) === -1) {
-        randomArray.push(currentElement);
-      } else {
-        continue;
-      }
-    }
-    return randomArray;
-  };
-
   window.util = {
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
     removeChilds: removeChilds,
     errorHandler: errorHandler,
     debounce: debounce,
-    getRandomArray: getRandomArray,
     ads: [],
-    filteredAds: [],
     noticeForm: noticeForm,
     mapBlock: mapBlock,
     mainPin: mainPin
