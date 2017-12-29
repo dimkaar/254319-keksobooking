@@ -12,7 +12,7 @@
     500: 'Внутренняя ошибка сервера'
   };
 
-  var xhrSetup = function (successHandler, errorHandler) {
+  var setupXHR = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -33,13 +33,13 @@
   };
 
   var load = function (successHandler, errorHandler) {
-    var xhr = xhrSetup(successHandler, errorHandler);
+    var xhr = setupXHR(successHandler, errorHandler);
     xhr.open('GET', URL + '/data');
     xhr.send();
   };
 
   var save = function (data, successHandler, errorHandler) {
-    var xhr = xhrSetup(successHandler, errorHandler);
+    var xhr = setupXHR(successHandler, errorHandler);
     xhr.open('POST', URL);
     xhr.send(data);
   };
