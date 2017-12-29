@@ -36,8 +36,8 @@
       });
     }
     window.card.remove();
-    window.util.filteredAds = window.filter.filtrate(window.util.ads);
-    window.pin.render(window.util.filteredAds);
+    var filteredAds = window.filter.filtrate(window.util.ads);
+    window.pin.render(filteredAds);
     appendFragment(window.pin.fragment);
   };
 
