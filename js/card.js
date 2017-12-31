@@ -19,11 +19,12 @@
     document.addEventListener('keydown', documentKeyDownHandler);
   };
 
-  var renderPopupElements = function (array, parentNode, classes) {
+  var renderPopupElements = function (array, parentNode, elementClass) {
     for (var i = 0; i < array.length; i++) {
       var newLi = document.createElement('li');
-      if (classes) {
-        newLi.classList = classes + array[i];
+      if (elementClass) {
+        newLi.classList.add('feature');
+        newLi.classList.add(elementClass + array[i]);
       } else {
         var picture = document.createElement('img');
         picture.src = array[i];
@@ -58,7 +59,7 @@
     instanceOfAd.querySelector('p:nth-of-type(3)').textContent = ad.offer.rooms + ' комнат для ' + ad.offer.guests + ' гостей';
     instanceOfAd.querySelector('p:nth-of-type(4)').textContent = 'Заезд после: ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     window.util.removeChilds(featuresList);
-    renderPopupElements(ad.offer.features, featuresList, 'feature feature--');
+    renderPopupElements(ad.offer.features, featuresList, 'feature--');
     instanceOfAd.querySelector('p:nth-of-type(5)').textContent = ad.offer.description;
     instanceOfAd.querySelector('.popup__avatar').src = ad.author.avatar;
     window.util.removeChilds(picturesList);
