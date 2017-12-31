@@ -59,12 +59,11 @@
       adTitleInput.setCustomValidity('Длина заголовка больше 100 символов');
       adTitleInput.addEventListener('change', titleChangeHandler);
       return false;
-    } else {
-      adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adTitleInput.removeEventListener('change', titleChangeHandler);
-      adTitleInput.setCustomValidity('');
-      return true;
     }
+    adTitleInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+    adTitleInput.removeEventListener('change', titleChangeHandler);
+    adTitleInput.setCustomValidity('');
+    return true;
   };
 
   var checkAddressValidity = function () {
@@ -72,11 +71,10 @@
       adAddressInput.setAttribute('style', 'border: 1px solid #ff0000');
       adAddressInput.setCustomValidity('Укажите адрес в формате: x: 000, y: 000');
       return false;
-    } else {
-      adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adAddressInput.setCustomValidity('');
-      return true;
     }
+    adAddressInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+    adAddressInput.setCustomValidity('');
+    return true;
   };
 
   var checkPriceValidity = function () {
@@ -98,13 +96,12 @@
       adPriceInput.addEventListener('change', priceChangeHandler);
       adPriceInput.addEventListener('blur', priceBlurHandler);
       return false;
-    } else {
-      adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
-      adPriceInput.setCustomValidity('');
-      adPriceInput.removeEventListener('change', priceChangeHandler);
-      adPriceInput.removeEventListener('blur', priceBlurHandler);
-      return true;
     }
+    adPriceInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+    adPriceInput.setCustomValidity('');
+    adPriceInput.removeEventListener('change', priceChangeHandler);
+    adPriceInput.removeEventListener('blur', priceBlurHandler);
+    return true;
   };
 
   var resetFields = function () {
