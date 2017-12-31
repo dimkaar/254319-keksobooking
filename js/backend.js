@@ -3,6 +3,7 @@
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking';
   var XHR_TIMEOUT = 10000;
+  var ONE_SECOND_TIME = 1000;
   var HTTP_SUCCESS_CODE = 200;
   var HTTP_ERROR_CODES = {
     400: 'Неверный запрос',
@@ -26,7 +27,7 @@
       errorHandler('Ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      errorHandler('Превышен интервал ожидания ' + xhr.timeout / 1000 + ' с');
+      errorHandler('Превышен интервал ожидания ' + xhr.timeout / ONE_SECOND_TIME + ' с');
     });
     xhr.timeout = XHR_TIMEOUT;
     return xhr;

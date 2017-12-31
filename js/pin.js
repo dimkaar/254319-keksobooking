@@ -25,9 +25,9 @@
     pin.setAttribute('style', 'left: ' + ad.location.x + 'px; top: ' + (ad.location.y - BUBBLE_HEIGHT / 2 - WHITE_SPADE_HEIGHT) + 'px;');
     pin.querySelector('img').src = ad.author.avatar;
 
-    var secondaryPinClickHandler = function (evt) {
+    var secondaryPinClickHandler = function () {
       removeActivePin();
-      evt.currentTarget.classList.add('map__pin--active');
+      pin.classList.add('map__pin--active');
       window.card.show(ad);
     };
 
