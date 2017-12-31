@@ -78,7 +78,6 @@
 
     document.addEventListener('mousemove', mainPinMouseMoveHandler);
     document.addEventListener('mouseup', mainPinMouseUpHandler);
-    window.util.mainPin.addEventListener('mouseup', mainPinMouseUpHandler);
   };
 
   var successHandler = function (data) {
