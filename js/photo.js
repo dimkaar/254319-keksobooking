@@ -44,4 +44,6 @@
     chooser.accept = 'image/jpg,image/jpeg,image/png,image/gif';
     chooser.addEventListener('change', chooserChangeListener);
   });
+  fileChoosers[0].name = 'user-photo';
+  fileChoosers[1].name = 'photos';
 })();
