@@ -126,6 +126,7 @@
         photoContainer.removeChild(photo);
       });
     }
+    checkPriceValidity();
     disableOptions();
   };
 
