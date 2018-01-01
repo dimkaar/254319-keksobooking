@@ -8,7 +8,7 @@
   };
   var fileChoosers = window.util.noticeForm.querySelectorAll('input[type="file"]');
   var avatarPreview = window.util.noticeForm.querySelector('.notice__preview img');
-  var photoPreview = window.util.noticeForm.querySelector('.form__photo-container');
+  var photoContainer = window.util.noticeForm.querySelector('.form__photo-container');
 
   var chooserChangeListener = function (evt) {
     var file = evt.target.files[0];
@@ -29,9 +29,10 @@
         } else {
           var photo = document.createElement('img');
           photo.src = reader.result;
+          photo.classList.add('form__uploading-photo');
           photo.width = PHOTO_SIZES.WIDTH;
           photo.height = PHOTO_SIZES.HEIGHT;
-          photoPreview.appendChild(photo);
+          photoContainer.appendChild(photo);
         }
       });
 
