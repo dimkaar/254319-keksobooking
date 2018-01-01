@@ -26,6 +26,8 @@
   var adCapacity = window.util.noticeForm.querySelector('#capacity');
   var adDescription = window.util.noticeForm.querySelector('#description');
   var adFormReset = window.util.noticeForm.querySelector('.form__reset');
+  var avatarPreview = window.util.noticeForm.querySelector('.notice__preview img');
+  var photoContainer = window.util.noticeForm.querySelector('.form__photo-container');
   var noticeFormFieldsets = window.util.noticeForm.querySelectorAll('fieldset');
   var features = window.util.noticeForm.querySelector('.features').querySelectorAll('input[type=checkbox]');
   var adCapacityOptions = adCapacity.querySelectorAll('option');
@@ -105,6 +107,7 @@
   };
 
   var resetFields = function () {
+    var photosPreviews = window.util.noticeForm.querySelectorAll('.form__uploading-photo');
     adTitleInput.value = '';
     adTypeSelectOptions[0].selected = true;
     adTimeinSelectOptions[0].selected = true;
@@ -117,6 +120,12 @@
     features.forEach(function (option) {
       option.checked = false;
     });
+    avatarPreview.src = 'img/muffin.png';
+    if (photosPreviews.length > 0) {
+      photosPreviews.forEach(function (photo) {
+        photoContainer.removeChild(photo);
+      });
+    }
     disableOptions();
   };
 
